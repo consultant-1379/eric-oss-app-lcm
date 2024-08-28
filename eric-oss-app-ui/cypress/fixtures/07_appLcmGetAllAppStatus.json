@@ -1,0 +1,56 @@
+{
+    "appInstances": [
+        {
+            "additionalParameters": null,
+            "appOnBoardingAppId": 1,
+            "createdTimestamp": "2022-09-23T08:21:48.408416Z[UTC]",
+            "healthStatus": "TERMINATED",
+            "id": 1,
+            "links": [
+                {
+                    "href": "http://localhost:8081/app-manager/lcm/app-lcm/v1/app-instances/1",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://localhost:8081/app-manager/lcm/app-lcm/v1/app-instances/1/artifact-instances",
+                    "rel": "artifact-instances"
+                },
+                {
+                    "href": "http://localhost:8081/app-manager/onboarding/v1/apps/1",
+                    "rel": "app"
+                },
+                {
+                    "href": "http://localhost:8081/app-manager/onboarding/v1/apps/1/artifacts",
+                    "rel": "artifacts"
+                }
+            ],
+            "targetStatus": "TERMINATED"
+        },
+        {
+            "additionalParameters": null,
+            "appOnBoardingAppId": 2,
+            "createdTimestamp": "2022-09-23T08:34:15.383165Z[UTC]",
+            "healthStatus": "FAILED",
+            "id": 3,
+            "links": [
+                {
+                    "href": "http://localhost:8081/app-manager/lcm/app-lcm/v1/app-instances/3",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://localhost:8081/app-manager/lcm/app-lcm/v1/app-instances/3/artifact-instances",
+                    "rel": "artifact-instances"
+                },
+                {
+                    "href": "http://localhost:8081/app-manager/onboarding/v1/apps/2",
+                    "rel": "app"
+                },
+                {
+                    "href": "http://localhost:8081/app-manager/onboarding/v1/apps/2/artifacts",
+                    "rel": "artifacts"
+                }
+            ],
+            "targetStatus": "INSTANTIATED"
+        }
+    ]
+}

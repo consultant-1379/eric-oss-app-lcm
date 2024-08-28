@@ -1,0 +1,405 @@
+[
+  {
+    "id": "6713f937-91c9-44c9-ac57-327eef6432d9",
+    "clientId": "account",
+    "name": "${client_account}",
+    "rootUrl": "${authBaseUrl}",
+    "baseUrl": "/realms/master/account/",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [
+      "/realms/master/account/*"
+    ],
+    "webOrigins": [],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "publicClient": true,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {},
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": 0,
+    "defaultClientScopes": [
+      "web-origins",
+      "acr",
+      "roles",
+      "profile",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "fc3ce542-0930-457e-891b-6e6a5f245bf3",
+    "clientId": "account-console",
+    "name": "${client_account-console}",
+    "rootUrl": "${authBaseUrl}",
+    "baseUrl": "/realms/master/account/",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [
+      "/realms/master/account/*"
+    ],
+    "webOrigins": [],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "publicClient": true,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {
+      "pkce.code.challenge.method": "S256"
+    },
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": 0,
+    "protocolMappers": [
+      {
+        "id": "f9c23252-4507-4ddc-8581-88489f437ed5",
+        "name": "audience resolve",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-audience-resolve-mapper",
+        "consentRequired": false,
+        "config": {}
+      }
+    ],
+    "defaultClientScopes": [
+      "web-origins",
+      "acr",
+      "roles",
+      "profile",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "93e52870-0cfe-4e74-81c0-f2f11586e82c",
+    "clientId": "admin-cli",
+    "name": "${client_admin-cli}",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [],
+    "webOrigins": [],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": false,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": true,
+    "serviceAccountsEnabled": false,
+    "publicClient": true,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {},
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": 0,
+    "defaultClientScopes": [
+      "web-origins",
+      "acr",
+      "roles",
+      "profile",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "89e2d16b-3ebb-4eba-85ac-b6b32cb8a038",
+    "clientId": "broker",
+    "name": "${client_broker}",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [],
+    "webOrigins": [],
+    "notBefore": 0,
+    "bearerOnly": true,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "publicClient": false,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {},
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": 0,
+    "defaultClientScopes": [
+      "web-origins",
+      "acr",
+      "roles",
+      "profile",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "02337252-035e-40c1-a154-bc314316686e",
+    "clientId": "master-realm",
+    "name": "master Realm",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [],
+    "webOrigins": [],
+    "notBefore": 0,
+    "bearerOnly": true,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "publicClient": false,
+    "frontchannelLogout": false,
+    "attributes": {},
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": 0,
+    "defaultClientScopes": [
+      "web-origins",
+      "acr",
+      "roles",
+      "profile",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "7d763a25-afed-4855-b1d9-ba89cee79a1d",
+    "clientId": "security-admin-console",
+    "name": "${client_security-admin-console}",
+    "rootUrl": "${authAdminUrl}",
+    "baseUrl": "/admin/master/console/",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [
+      "/admin/master/console/*"
+    ],
+    "webOrigins": [
+      "+"
+    ],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "publicClient": true,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {
+      "pkce.code.challenge.method": "S256"
+    },
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": 0,
+    "protocolMappers": [
+      {
+        "id": "05ebd6af-3d1f-4eb9-8f1e-af2e1f5c5f1d",
+        "name": "locale",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-usermodel-attribute-mapper",
+        "consentRequired": false,
+        "config": {
+          "userinfo.token.claim": "true",
+          "user.attribute": "locale",
+          "id.token.claim": "true",
+          "access.token.claim": "true",
+          "claim.name": "locale",
+          "jsonType.label": "String"
+        }
+      }
+    ],
+    "defaultClientScopes": [
+      "web-origins",
+      "acr",
+      "roles",
+      "profile",
+      "email"
+    ],
+    "optionalClientScopes": [
+      "address",
+      "phone",
+      "offline_access",
+      "microprofile-jwt"
+    ],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  },
+  {
+    "id": "96c0ea37-fda2-4646-b332-aea2cdb8fe04",
+    "clientId": "rAppId-1652438905",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [],
+    "webOrigins": [],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": false,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": true,
+    "publicClient": false,
+    "frontchannelLogout": false,
+    "protocol": "openid-connect",
+    "attributes": {
+      "saml.force.post.binding": "false",
+      "saml.multivalued.roles": "false",
+      "oauth2.device.authorization.grant.enabled": "false",
+      "backchannel.logout.revoke.offline.tokens": "false",
+      "saml.server.signature.keyinfo.ext": "false",
+      "use.refresh.tokens": "true",
+      "oidc.ciba.grant.enabled": "false",
+      "backchannel.logout.session.required": "true",
+      "client_credentials.use_refresh_token": "false",
+      "require.pushed.authorization.requests": "false",
+      "saml.client.signature": "false",
+      "id.token.as.detached.signature": "false",
+      "saml.assertion.signature": "false",
+      "client.secret.creation.time": "1652438905",
+      "saml.encrypt": "false",
+      "saml.server.signature": "false",
+      "exclude.session.state.from.auth.response": "false",
+      "saml.artifact.binding": "false",
+      "saml_force_name_id_format": "false",
+      "acr.loa.map": "{}",
+      "tls.client.certificate.bound.access.tokens": "false",
+      "saml.authnstatement": "false",
+      "display.on.consent.screen": "false",
+      "token.response.type.bearer.lower-case": "false",
+      "saml.onetimeuse.condition": "false"
+    },
+    "authenticationFlowBindingOverrides": {},
+    "fullScopeAllowed": true,
+    "nodeReRegistrationTimeout": -1,
+    "protocolMappers": [
+      {
+        "id": "4913250d-ec6d-4632-8add-136950505252",
+        "name": "Client Host",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-usersessionmodel-note-mapper",
+        "consentRequired": false,
+        "config": {
+          "user.session.note": "clientHost",
+          "id.token.claim": "true",
+          "access.token.claim": "true",
+          "claim.name": "clientHost",
+          "jsonType.label": "String"
+        }
+      },
+      {
+        "id": "0c0db237-344d-41cc-bc1c-b2fee6dcb9a6",
+        "name": "Client ID",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-usersessionmodel-note-mapper",
+        "consentRequired": false,
+        "config": {
+          "user.session.note": "clientId",
+          "id.token.claim": "true",
+          "access.token.claim": "true",
+          "claim.name": "clientId",
+          "jsonType.label": "String"
+        }
+      },
+      {
+        "id": "133a6082-a174-4583-a3ca-f9218315935c",
+        "name": "Client IP Address",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-usersessionmodel-note-mapper",
+        "consentRequired": false,
+        "config": {
+          "user.session.note": "clientAddress",
+          "id.token.claim": "true",
+          "access.token.claim": "true",
+          "claim.name": "clientAddress",
+          "jsonType.label": "String"
+        }
+      }
+    ],
+    "defaultClientScopes": [],
+    "optionalClientScopes": [],
+    "access": {
+      "view": true,
+      "configure": true,
+      "manage": true
+    }
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "componentInstancesProperties": [
+    {
+      "eric-oss-5gcnr": {
+        "timeout": 5,
+        "userDefinedHelmParameters": {
+          "replicaCount": 2
+        }
+      }
+    }
+  ]
+}

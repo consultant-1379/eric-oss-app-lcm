@@ -1,0 +1,24 @@
+describe('Visiting the gasURL of the app', () => {
+  it('successfully loads', () => {
+    cy.visit(Cypress.config().gasURL);
+
+    cy.log('*** Logging into the Ericsson Portal ***');
+    cy.get('#kc-form-login').find('#username').type('rogerroger');
+    cy.get('#kc-form-login').find('#password').type('RogerRoger1234!');
+    cy.get('#kc-form-buttons').find('#kc-login-input').click();
+
+    cy.log('*** Going inside the EIAP ***');
+    cy.get('eui-container').shadow().find('e-launcher').shadow().find('e-launcher-component')
+      .shadow().find('e-product-view').shadow().find('e-card-container').shadow()
+      .find('e-product-card[product-name="eiap"]').shadow().find('e-base-link').click()
+
+    cy.log('*** Click on the app-mgr tile to visit the app ***');
+    cy.get('eui-container').shadow().find('e-launcher').shadow().find('e-launcher-component')
+      .shadow().find('e-app-view').shadow().find('e-card-container[product-name="eiap"]').shadow()
+      .find('e-app-card[display-name="app-mgr"]').shadow().find('e-base-link').click()
+
+    cy.log('*** Verifying the App Admin Dashboard ***');
+    cy.get('eui-container').shadow().find('eui-app-bar').shadow().find('eui-app-bar-breadcrumb').shadow()
+    .find('#breadcrumb').contains('App Administration');
+  })
+})

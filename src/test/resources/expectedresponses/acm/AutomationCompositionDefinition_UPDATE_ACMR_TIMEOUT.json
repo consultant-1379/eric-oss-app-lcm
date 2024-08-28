@@ -1,0 +1,40 @@
+{
+      "instanceId": "4cc13f73-e18c-4384-abf8-2d1d0bc3a8cd",
+      "compositionId": "dd34f81e-cdbe-4e64-8ea7-8a04de3d742f",
+      "deployState": "DEPLOYING",
+      "lockState": "NONE",
+      "elements": {
+        "4761c02d-e980-4e60-a96a-f55496f4919c": {
+          "id": "4761c02d-e980-4e60-a96a-f55496f4919c",
+          "definition": {
+            "name": "com.ericsson.oss.app.mgr.ac.element.AppLcmMicroserviceAutomationCompositionElement",
+            "version": "1.0.74"
+          },
+          "participantId": "101c62b3-8918-41b9-a747-d21eb79c6c04",
+          "deployState": "DEPLOYING",
+          "lockState": "LOCKED",
+          "operationalState": "ENABLED",
+          "useState": "IDLE",
+          "description": "The element instance properties for this Cloud Native LCM microservice",
+          "properties": {
+            "namespace": "default",
+            "timeout": 5,
+            "keycloakParameters": {
+              "keycloakClientId": "rappid-idtemp2",
+              "keycloakClientSecret": "secret",
+              "keycloakClientUrl": "https://iam.ews.gic.ericsson.se"
+            }
+          },
+          "outProperties": {
+            "hfe parameters": {
+              "operationId": "8cf5633c-a803-4acf-9593-4e82838d646b",
+              "workloadInstanceId": "c15f446c-f2b2-4586-87db-24393b9673c1"
+            }
+          }
+        }
+      },
+      "stateChangeResult": "TIMEOUT",
+      "name": "691a9359-5c35-433a-bdf4-9bc0f5c2bfd5",
+      "version": "1.0.0",
+      "description": "Properties file containing configuration settings for an application instance"
+}

@@ -1,0 +1,47 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+name: fb576d1c-9a58-461c-b43f-697dd88dc064
+version: 1.0.0
+compositionId: fac50cde-11a2-4915-a49c-709762714a5d
+description: Properties file containing configuration settings for an application instance
+elements:
+  cde33b59-07d2-4977-8f65-68956e46c8cc:
+    id: cde33b59-07d2-4977-8f65-68956e46c8cc
+    definition:
+      name: com.ericsson.oss.app.mgr.ac.element.AppLcmMicroserviceAutomationCompositionElement
+      version: 1.0.0
+    description: The element instance properties for this Cloud Native LCM microservice
+    properties:
+      namespace: default
+      timeout: 5
+      keycloakParameters:
+        keycloakClientId: clientId
+        keycloakClientSecret: client-secret
+        keycloakClientUrl: clientUrl
+  efe33b59-07d2-5077-8f65-68956e46c8dd:
+    id: efe33b59-07d2-5077-8f65-68956e46c8dd
+    definition:
+      name: com.ericsson.oss.app.mgr.ac.element.DataManagementAutomationCompositionElement
+      version: 1.0.0-1
+    description: The instance properties for this Data Management Composition Element
+    properties:
+      iamClientId: clientId
+      artifacts:
+        - name: input-data-specification.json
+          bucketName: app-management
+          objectName: 9cc1047a-5aae-4630-893a-1536392cbd2b/input-data-specification.json
+          type: OPAQUE

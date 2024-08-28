@@ -1,0 +1,10 @@
+[
+  {
+  "resource": "kafka",
+  "scope": "autHN"
+},
+  {
+    "resource": "mongoDb",
+    "scope": "autHmongo"
+  }
+]

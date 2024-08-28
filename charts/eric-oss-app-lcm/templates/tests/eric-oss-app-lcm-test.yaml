@@ -1,0 +1,123 @@
+{{- if (include "eric-oss-app-lcm.app-lcm-stub-enabled" .) }}
+
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ template "eric-oss-app-lcm.name" . }}-test
+  labels:
+    {{- include "eric-oss-app-lcm.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-app-lcm.testAnnotations" . | nindent 4 }}
+spec:
+  {{- if include "eric-oss-app-lcm.pullSecret" . }}
+  imagePullSecrets:
+    - name: {{ include "eric-oss-app-lcm.pullSecret" . | quote}}
+  {{- end }}
+  securityContext:
+    fsGroup: {{ include "eric-oss-app-lcm.fsGroup.coordinated" . }}
+  containers:
+  - name: eric-oss-app-lcm-test
+    image: {{ template "eric-oss-app-lcm.testImagePath" . }}
+    securityContext:
+      allowPrivilegeEscalation: false
+      privileged: false
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+      capabilities:
+          drop:
+            - all
+    resources:
+      requests:
+      {{- if (index .Values "resources" "eric-oss-app-lcmTest" "requests" "cpu") }}
+        cpu: {{ (index .Values "resources" "eric-oss-app-lcmTest" "requests" "cpu" | quote) }}
+      {{- end }}
+      {{- if (index .Values "resources" "eric-oss-app-lcmTest" "requests" "memory") }}
+        memory: {{ (index .Values "resources" "eric-oss-app-lcmTest" "requests" "memory" | quote) }}
+      {{- end }}
+      {{- if (index .Values "resources" "eric-oss-app-lcmTest" "requests" "ephemeral-storage") }}
+      {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcmTest" "requests" "ephemeral-storage" | quote) }}
+      {{- end }}
+      limits:
+      {{- if (index .Values "resources" "eric-oss-app-lcmTest" "limits" "cpu") }}
+        cpu: {{ (index .Values "resources" "eric-oss-app-lcmTest" "limits" "cpu" | quote) }}
+      {{- end }}
+      {{- if (index .Values "resources" "eric-oss-app-lcmTest" "limits" "memory") }}
+        memory: {{ (index .Values "resources" "eric-oss-app-lcmTest" "limits" "memory" | quote) }}
+      {{- end }}
+      {{- if (index .Values "resources" "eric-oss-app-lcmTest" "limits" "ephemeral-storage") }}
+      {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcmTest" "limits" "ephemeral-storage" | quote) }}
+      {{- end }}
+    env:
+      - name: SERVICE_HOSTNAME
+        value: {{ template "eric-oss-app-lcm.name" . }}
+      - name: SERVICE_PORT
+        value: "8080"
+    command: [ "/bin/sh", "-c", "/scripts/test-app-lcm.sh" ]
+    volumeMounts:
+    - name: scripts
+      mountPath: /scripts
+  restartPolicy: Never
+  volumes:
+  - name: scripts
+    configMap:
+      name: {{ template "eric-oss-app-lcm.name" . }}-test-script
+      defaultMode: 0777
+  nodeSelector: {{ include "eric-oss-app-lcm.nodeSelector" . | nindent 2 -}}
+  {{- if .Values.tolerations }}
+  tolerations:
+    {{- include "eric-oss-app-lcm.tolerations" . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.topologySpreadConstraints.test }}
+  topologySpreadConstraints:
+    {{- toYaml . | nindent 6 }}
+  {{- end }}
+  {{- if .Values.terminationGracePeriodSeconds }}
+  terminationGracePeriodSeconds:
+    {{- include "eric-oss-app-lcm.terminationGracePeriodSeconds" . | nindent 8 }}
+  {{- end }}
+  {{- if (index .Values.podPriority "eric-oss-app-lcm" "priorityClassName") }}
+  priorityClassName: {{ index .Values.podPriority "eric-oss-app-lcm" "priorityClassName" | quote }}
+  {{- end }}
+  {{- if eq .Values.affinity.podAntiAffinity "hard" }}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - {{ include "eric-oss-app-lcm.name" . }}
+        topologyKey: "kubernetes.io/hostname"
+  {{- else if eq .Values.affinity.podAntiAffinity  "soft" }}
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - {{ include "eric-oss-app-lcm.name" . }}
+          topologyKey: "kubernetes.io/hostname"
+  {{- end }}
+{{- end }}

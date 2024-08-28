@@ -1,0 +1,43 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+{{ $serviceMesh := include "eric-oss-app-lcm.service-mesh-enabled" . | trim }}
+{{ $tls := include "eric-oss-app-lcm.global-security-tls-enabled" . | trim }}
+{{ if and (eq $serviceMesh "true") (eq $tls "true") }}
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: {{ template "eric-oss-app-lcm.name" . }}-eric-adp-gui-aggregator-service-sidecar
+  labels:
+  {{- include "eric-oss-app-lcm.helmK8s-labels" .| nindent 4 }}
+  annotations:
+  {{- include "eric-oss-app-lcm.product-info" .| nindent 4 }}
+spec:
+  workloadSelector:
+    labels:
+      app.kubernetes.io/name:  {{ template "eric-oss-app-lcm.name" . }}
+  ingress:
+  - port:
+      number: 8443
+      protocol: HTTPS
+      name: https-frontend
+    defaultEndpoint: 0.0.0.0:4200
+    tls:
+      mode: MUTUAL
+      privateKey: "/etc/istio/tls/eric-adp-gui-aggregator-service/key.pem"
+      serverCertificate: "/etc/istio/tls/eric-adp-gui-aggregator-service/cert.pem"
+      caCertificates: "/etc/istio/tls/eric-adp-gui-aggregator-service-ca/ca.pem"
+{{- end }}

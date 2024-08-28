@@ -1,0 +1,3 @@
+{
+  "protocol":"openid-connect","config":{"id.token.claim":"false","access.token.claim":"true","included.client.audience":null,"included.custom.audience":"kafka"},"name":"Audience kafka mapper","protocolMapper":"oidc-audience-mapper"
+}

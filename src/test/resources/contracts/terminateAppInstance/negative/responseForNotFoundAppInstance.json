@@ -1,0 +1,9 @@
+{
+  "type": "Not Found",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "Could not find App Instance with ID '0'",
+  "appLcmErrorCode": 1001,
+  "appLcmErrorMessage": "Could not find the app instance specified.",
+  "url": "http://eric-oss-app-lcm:8080/app-lcm/v1/app-instances/0"
+}

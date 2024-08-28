@@ -1,0 +1,9 @@
+{
+  "type": "Internal Server Error",
+  "title": "Internal Server Error",
+  "status": 500,
+  "detail": "Error Parsing JSON",
+  "appLcmErrorCode": 1005,
+  "appLcmErrorMessage": "Could not find the artifact instance specified.",
+  "url": "/app-lcm/v1/app-instances"
+}

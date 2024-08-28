@@ -1,0 +1,9 @@
+{
+  "type": "Bad Request",
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "App Instance should be instantiated (or Failed) to terminate it.",
+  "appLcmErrorCode": 1014,
+  "appLcmErrorMessage": "App LCM failed to terminate app.",
+  "url": "http://eric-oss-app-lcm:8080/app-lcm/v1/app-instances/2"
+}

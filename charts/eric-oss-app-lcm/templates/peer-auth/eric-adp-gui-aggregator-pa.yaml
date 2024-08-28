@@ -1,0 +1,37 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+{{ $serviceMesh := include "eric-oss-app-lcm.service-mesh-enabled" . | trim }}
+{{ $tls := include "eric-oss-app-lcm.global-security-tls-enabled" . | trim }}
+{{ if and (eq $serviceMesh "true") (eq $tls "true") }}
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: {{ template "eric-oss-app-lcm.name" . }}-eric-adp-gui-aggregator-service-peer-authentication-for-sidecar #service-name is the service inside the mesh
+  annotations:
+  {{- include "eric-oss-app-lcm.annotations" .| nindent 4 }}
+  labels:
+  {{- include "eric-oss-app-lcm.kubernetes-io-info" .| nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: eric-oss-app-lcm #service name inside the mesh
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    "8443":
+      mode: DISABLE
+{{- end }}

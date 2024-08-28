@@ -1,0 +1,366 @@
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+openapi: 3.0.2
+info:
+  x-api-id: 12f6a604-1712-43a6-a175-467bbcc0327e
+  x-audience: external-public
+  description: |
+    Application LCM created with Microservice Chassis<br>
+    The endpoints in this API are deprecated. For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+  version: 0.0.1
+  title: Application LCM V2
+  license:
+    name: COPYRIGHT Ericsson 2021
+    url: 'https://www.ericsson.com/en/legal'
+  termsOfService: 'https://www.ericsson.com/en/legal'
+  contact:
+    name: Team RogerRoger
+    email: PDLROGERRO@pdl.internal.ericsson.com
+tags:
+  - name: App Instances V2
+    description: Application LCM Phase 2 Endpoints for instances of an App.
+
+paths:
+  /app-instances:
+    get:
+      tags:
+        - App Instances V2
+      summary: Retrieve all instances of apps in App LCM
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getAllAppInstances
+      parameters:
+        - in: query
+          description: appInstanceId
+          required: false
+          name: appId
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInstancesV2Dto'
+              examples:
+                AppInstances:
+                  $ref: '#/components/examples/AppInstancesV2'
+
+  /app-instances/{appInstanceId}:
+    get:
+      tags:
+        - App Instances V2
+      summary: Retrieve specific instance of an app by 'appInstanceId'
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getAppInstanceById
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInstanceV2Dto'
+              examples:
+                AppInstance:
+                  $ref: '#/components/examples/AppInstanceV2'
+
+  /app-instances/{appInstanceId}/artifact-instances:
+    get:
+      tags:
+        - Artifact Instances V2
+      summary: An app contains one or more artifacts that comprise the app.
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getArtifactInstancesByAppInstanceId
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtifactInstancesV2Dto'
+              examples:
+                ArtifactInstances:
+                  $ref: '#/components/examples/ArtifactInstancesV2'
+
+  /app-instances/{appInstanceId}/artifact-instances/{artifactInstanceId}:
+    get:
+      tags:
+        - Artifact Instances V2
+      summary: Retrieve specific artifact of an app by 'appInstanceId' and 'artifactInstanceId'
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getArtifactInstanceByAppInstanceIdAndArtifactInstanceId
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: artifactInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtifactInstanceV2Dto'
+              examples:
+                ArtifactInstance:
+                  $ref: "#/components/examples/ArtifactInstanceV2"
+
+# components:
+components:
+  schemas:
+    AppLcmResponseV2Dto:
+      discriminator:
+        propertyName: AppLcmResponseType
+        #        x-field-extra-annotation: "@com.fasterxml.jackson.annotation.JsonIgnore"
+        mapping:
+          appInstanceV2Dto: '#/components/schemas/AppInstanceV2Dto'
+          appInstancesV2Dto: '#/components/schemas/AppInstancesV2Dto'
+          artifactInstanceV2Dto: '#/components/schemas/ArtifactInstanceV2Dto'
+          artifactInstancesV2Dto: '#/components/schemas/ArtifactInstancesV2Dto'
+      type: object
+      properties:
+        detail:
+          type: string
+        appLcmErrorCode:
+          type: integer
+        appLcmErrorMessage:
+          type: string
+        url:
+          type: string
+
+    AppInstanceV2Dto:
+      allOf:
+        - $ref: '#/components/schemas/AppLcmResponseV2Dto'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 1
+            appOnBoardingAppId:
+              type: integer
+              format: int64
+              example: 123
+            healthStatus: # INSTANTIATED, TERMINATED, FAILED, PENDING, DELETED
+              type: string
+            targetStatus:
+              type: string
+            createdTimestamp:
+              type: string
+            additionalParameters:
+              type: string
+            links:
+              type: array
+              items:
+                title: Link
+                type: object
+                properties:
+                  rel:
+                    type: string
+                  href:
+                    type: string
+          required:
+            - appId
+
+    ArtifactInstanceV2Dto:
+      allOf:
+        - $ref: '#/components/schemas/AppLcmResponseV2Dto'
+        - type: object
+          properties:
+            artifactInstanceId:
+              type: integer
+              format: int64
+            artifactId:
+              type: integer
+              format: int64
+            healthStatus:
+              type: string
+            createdTimestamp:
+              type: string
+            statusMessage:
+              type: string
+            links:
+              type: array
+              items:
+                title: Link
+                type: object
+                properties:
+                  rel:
+                    type: string
+                  href:
+                    type: string
+
+    AppInstancesV2Dto:
+      allOf:
+        - $ref: '#/components/schemas/AppLcmResponseV2Dto'
+        - type: object
+          properties:
+            appInstances:
+              type: array
+              items:
+                $ref: '#/components/schemas/AppInstanceV2Dto'
+
+    ArtifactInstancesV2Dto:
+      allOf:
+        - $ref: '#/components/schemas/AppLcmResponseV2Dto'
+        - type: object
+          properties:
+            artifactInstances:
+              type: array
+              items:
+                $ref: '#/components/schemas/ArtifactInstanceV2Dto'
+
+  examples:
+    AppInstance:
+      summary: A sample instance of an app.
+      value:
+        id: 1
+        appOnBoardingAppId: 456
+        healthStatus: INSTANTIATED
+        targetStatus: INSTANTIATED
+        createdTimestamp: "2021-08-19 19:10:25-07"
+        additionalParameters: { "namespace": "rapp-namespace" }
+        links:
+          - rel: app
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+          - rel: artifacts
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifacts
+          - rel: artifact-instances
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+          - rel: self
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1
+
+    AppInstancesV2:
+      summary: All app instances in LCM
+      value:
+        - id: 1
+          appOnBoardingAppId: 234
+          healthStatus: FAILED
+          targetStatus: INSTANTIATED
+          createdTimestamp: "2021-08-19 19:10:25-07"
+          additionalParameters: {"namespace": "rapp-namespace"}
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/234
+            - rel: artifacts
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/234/artifacts
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1
+
+        - id: 2
+          appOnBoardingAppId: 235
+          healthStatus: PENDING
+          targetStatus: TERMINATED
+          createdTimestamp: "2021-08-19 19:10:25-07"
+          additionalParameters: {}
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/235
+            - rel: artifacts
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/235/artifacts
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/2/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/2
+
+    ArtifactInstance:
+      summary: A sample of an artifact instance
+      value:
+        artifactInstanceId: 1
+        artifactId: 123
+        healthStatus: PENDING
+        statusMessage: null
+        links:
+          - rel: app
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+          - rel: artifact
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifact/123
+          - rel: app-instance
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instances/1
+          - rel: artifact-instances
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+          - rel: self
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances/1
+
+    ArtifactInstances:
+      summary: A sample of an array of artifacts
+      value:
+        - artifactInstanceId: 1
+          artifactId: 123
+          healthStatus: PENDING
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+            - rel: artifact
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifact/123
+            - rel: app-instance
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instances/1
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances/1
+        - artifactInstanceId: 2
+          artifactId: 124
+          healthStatus: FAILED
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+            - rel: artifact
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifact/124
+            - rel: app-instance
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instances/1
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances/2

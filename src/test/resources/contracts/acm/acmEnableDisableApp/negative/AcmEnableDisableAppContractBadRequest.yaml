@@ -1,0 +1,33 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+description: Enable Disable App Bad Request
+name: enableDisableApp_badRequest
+request:
+  method: PUT
+  urlPath: /v3/apps/26471a81-1de4-4ad9-9724-326eefd22233/mode
+  headers:
+    Content-Type: "application/json"
+  body:
+    mode: ENABLED
+response:
+  status: 400
+  headers:
+    Content-Type: "application/json"
+  body:
+    title: Bad Request
+    status: 400
+    detail: Invalid Input.

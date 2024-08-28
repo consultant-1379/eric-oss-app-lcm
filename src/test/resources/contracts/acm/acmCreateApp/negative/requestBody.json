@@ -1,0 +1,32 @@
+{
+  "name": "eric-oss-hello-world-multiple-microservices-go-app",
+  "version": "1.1.1",
+  "type": "rApp",
+  "provider": "Ericsson",
+  "appComponents": [{
+    "name": "eric-oss-hello-world-multiple-microservices-go-app",
+    "type": "Microservice",
+    "version": "1.1.1",
+    "artifacts": [{
+      "name": "eric-oss-hello-world-go-app",
+      "type": "HELM",
+      "location": "26471a81-1de4-4ad9-9724-326eefd22230/eric-oss-hello-world-go-app"
+    },
+      {
+        "name": "docker.tar",
+        "type": "IMAGE",
+        "location": "26471a81-1de4-4ad9-9724-326eefd22230/docker"
+      }
+    ]
+  }],
+  "appPermissions": [{
+    "resource": "nginx",
+    "scope": "foo"
+  }, {
+    "resource": "mongoDB",
+    "scope": "goodbyeWorld"
+  }],
+  "appRoles": [{
+    "name": "admin"
+  }]
+}

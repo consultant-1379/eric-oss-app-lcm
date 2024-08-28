@@ -1,0 +1,10 @@
+[
+  {
+    "scopes": [
+      "POST",
+      "GET",
+      "PUT",
+      "DELETE"
+    ]
+  }
+]

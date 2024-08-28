@@ -1,0 +1,16 @@
+/* style goes here */
+:host{
+    display: inline-block;
+}
+
+#button-group {
+    display: flex;
+}
+
+.primary {
+    padding-right: 8px;
+}
+
+.secondary {
+    margin-left: 8px;
+}

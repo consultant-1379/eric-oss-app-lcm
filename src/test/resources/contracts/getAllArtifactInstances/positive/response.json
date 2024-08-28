@@ -1,0 +1,16 @@
+[
+  {
+    "artifactInstanceId": 1,
+    "artifactId": 123,
+    "healthStatus": "PENDING",
+    "createdTimestamp": "2021-08-19 19:10:25-07",
+    "links": null
+  },
+  {
+    "artifactInstanceId": 2,
+    "artifactId": 124,
+    "healthStatus": "FAILED",
+    "createdTimestamp": "2021-08-19 19:10:25-07",
+    "links": null
+  }
+]

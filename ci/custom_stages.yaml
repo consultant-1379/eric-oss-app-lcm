@@ -1,0 +1,11 @@
+stage-marker-build:
+    - name: custom_stages/uitest.Jenkinsfile
+stage-marker-image:
+    - name: custom_stages/uiimage.Jenkinsfile
+stage-marker-package:
+    - name: custom_stages/uipackage.Jenkinsfile
+stage-marker-post-parallel:
+    - name: custom_stages/postparallel.Jenkinsfile
+stage-marker-helm:
+    - name: custom_stages/helminstall.Jenkinsfile
+    - name: custom_stages/publish.Jenkinsfile

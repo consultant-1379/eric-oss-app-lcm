@@ -1,0 +1,34 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+name: AC instance properties file for an App LCM app instance
+version: 1.0.0
+compositionId: 4a2db724-21f8-4fc3-9fa6-2f9d96b3616e
+instanceId: cde33b59-07d2-4977-8f65-68956e46c8cc
+description: Properties file containing configuration settings for an application instance with the App Id '8ebd7b1b-34ea-4a10-9e91-d3c49b98c84d'
+elements:
+  cde33b59-07d2-4977-8f65-68956e46c8cc:
+    id: cde33b59-07d2-4977-8f65-68956e46c8cc
+    definition:
+      name: com.ericsson.oss.app.mgr.ac.element.AppLcmMicroserviceAutomationCompositionElement
+      version: 1.0.0
+    description: The element instance properties for this Cloud Native LCM microservice
+    properties:
+      userDefinedHelmParameters: {"replicaCount":2}
+      keycloakParameters:
+        keycloakClientId: client-id
+        keycloakClientSecret: client-secret
+        keycloakClientUrl: client-url

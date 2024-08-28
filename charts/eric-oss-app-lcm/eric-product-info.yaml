@@ -1,0 +1,47 @@
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+productName: "eric-oss-app-lcm HELM"
+productNumber: "CXC 201 0000"
+images:
+  eric-oss-app-lcm:
+    productName: "eric-oss-app-lcm IMAGE"
+    productNumber: "CXC 201 0001"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: REPO_PATH
+    name: "eric-oss-app-lcm"
+    tag: VERSION
+  eric-oss-app-lcmTest:
+    productName: "eric-oss-app-lcm Test IMAGE"
+    productNumber: "CXC 201 0002"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: proj-eric-oss-drop
+    name: "eric-oss-helm-test"
+    tag: 1.0.0-1
+  eric-oss-app-ui:
+    productName: "eric-oss-app-lcm-ui IMAGE"
+    productNumber: "CXC 201 0002"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: REPO_PATH
+    name: "eric-oss-app-lcm-ui"
+    tag: VERSION
+  kubeclient:
+    productName: "Document Database Kube-Client Image"
+    productNumber: "CXC 201 1992"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: "proj-document-database-pg-release/data"
+    name: "eric-data-document-database-kube-client"
+    tag: "9.2.0-44"

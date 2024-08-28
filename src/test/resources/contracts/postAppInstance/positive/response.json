@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "appOnBoardingAppId": 456,
+  "healthStatus": "PENDING",
+  "targetStatus": "INSTANTIATED",
+  "createdTimestamp": null,
+  "links": null
+}

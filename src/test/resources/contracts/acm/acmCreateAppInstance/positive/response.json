@@ -1,0 +1,31 @@
+{
+  "id": "7e151de6-18a9-4770-be4f-354b620f0035",
+  "appId": "26471a81-1de4-4ad9-9724-326eefd22230",
+  "status": "UNDEPLOYED",
+  "createdAt": "2023-04-06T00:04:16.711+00:00",
+  "updatedAt": "2023-04-06T00:05:16.711+00:00",
+  "credentials": {
+    "clientId": "rappid-3146ccdc-0323-4f34-8f3e-13b858c1c582-1708549936654-8c12ffcc-64c3-4070-b9b5-a115ded1f825"
+  },
+  "componentInstances": [
+    {
+      "name": "eric-oss-5gcnr",
+      "version": "1.2.3",
+      "type": "Microservice",
+      "deployState": "UNDEPLOYED",
+      "properties": {
+        "timeout": 5,
+        "userDefinedHelmParameters": {
+          "replicaCount": 2
+        }
+      }
+    }
+  ],
+  "events": [],
+  "self": {
+    "href": "app-lifecycle-management/v3/app-instances/7e151de6-18a9-4770-be4f-354b620f0035"
+  },
+  "app": {
+    "href": "app-lifecycle-management/v3/apps/26471a81-1de4-4ad9-9724-326eefd22230"
+  }
+}

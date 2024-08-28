@@ -1,0 +1,303 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+# Default values for eric-oss-app-lcm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#global:
+#  timezone: UTC
+#  registry:
+#   url: armdocker.rnd.ericsson.se
+#   imagePullPolicy: IfNotPresent
+#  #Secret must be manually created in the namespace, no default value
+#  pullSecret: eric-adp-example-secret
+#  fsGroup:
+#    manual: 10000
+#    namespace: true
+#  # The IP family the service belongs to when service.type is set to ClusterIP.
+#  # Options are: IPv4, IPv6
+#  internalIPFamily:
+#  security:
+#    policyBinding:
+#      create: true
+#    policyReferenceMap:
+#      default-restricted-security-policy: "<restricted security policy at customer deployment>"
+#    tls:
+#      enabled: true
+  # Configuring global streamingMethod: indirect, direct, dual. default=direct
+#  log:
+#    streamingMethod: "direct"
+#  eric-oss-app-lcm-stub:
+#    enabled: true
+
+# Needed for DR-1123-134
+securityPolicy:
+  rolename: "eric-oss-app-lcm"
+
+networkPolicy:
+  enabled: true
+
+replicaCount: 3
+
+podDisruptionBudget:
+  # Minimum number/percentage of Pods that must remain available during the planned disruption.
+  # Value can be expressed as an integer or as a percentage. When specified as a percentage of the Pods,
+  # if it does not map to an exact number, Kubernetes rounds up to the nearest integer.
+  # minAvailable: 2 # example value for 2 pods defined as integer
+  minAvailable: "50%"
+  maxUnavailable:
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 2
+    maxUnavailable: 1
+
+#Empty labels list for application deployment engineer to add more labels (In Compliance with DR-D1121-068).
+labels: {}
+
+imageCredentials:
+  eric-oss-app-lcm:
+    registry:
+      imagePullPolicy:
+    repoPath: # see default in eric-product-info.yaml
+      # overrides global registry url
+      # url:
+      #- Secret must be manually created in the namespace, no default value
+      # pullSecret: REPO_SECRET
+  eric-oss-app-lcmTest:
+    registry:
+      imagePullPolicy:
+    repoPath: # see default in eric-product-info.yaml
+
+eric-data-document-db:
+  name: eric-appmgr-data-document-db
+  postgresUser: customuser
+  postgresDatabase: app_lcm_db
+  credentials:
+    kubernetesSecretName: eric-appmgr-data-document-db-credentials
+  service:
+    port: 5432
+  originalAppLcmDb:
+    name: eric-oss-app-lcm-data
+  appmgrDb:
+    postgresDatabase: lcm-pg-db
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+annotations: {}
+
+# local streamingMethod
+log:
+  streamingMethod:
+
+service:
+  type: ClusterIP
+  port: 8080    # Changed from 80 to 8080 and spring application is hosted on 8080
+  frontendPort: 4200
+  endpoints:
+    chassisapi:
+      tls:
+        enforced: required
+        verifyClientCertificate: required
+
+ingress:
+  enabled: false
+  ingressClass: OAM-IngressClass
+  hosts:
+    - host: chart-example.local
+      paths: [/]
+
+  tls: {}
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+eric-pm-server:
+  rbac:
+    appMonitoring:
+      enabled: true
+
+prometheus:
+  path: /actuator/prometheus
+  scrape: true
+  role: pod
+  interval: 15s
+
+terminationGracePeriodSeconds: 30
+
+podPriority:
+  eric-oss-app-lcm:
+    priorityClassName:
+
+probes:
+  eric-oss-app-lcm:
+    livenessProbe:
+      initialDelaySeconds: 120
+      failureThreshold: 3
+      periodSeconds: 15
+      successThreshold: 3
+      timeoutSeconds: 10
+    readinessProbe:
+      scheme: https
+      path: /app-lcm/v2/app-instances
+      failureThreshold: 3
+      initialDelaySeconds: 120
+      periodSeconds: 15
+      successThreshold: 3
+      timeoutSeconds: 10
+  eric-oss-app-lcm-ui:
+    livenessProbe:
+      initialDelaySeconds: 90
+      failureThreshold: 3
+      periodSeconds: 15
+      successThreshold: 3
+      timeoutSeconds: 10
+    readinessProbe:
+      scheme: https
+      path: /info.html
+      failureThreshold: 3
+      initialDelaySeconds: 90
+      periodSeconds: 15
+      successThreshold: 3
+      timeoutSeconds: 10
+
+resources:
+  eric-oss-app-lcm:
+    requests:
+      memory: 500Mi
+      cpu: 10m
+      ephemeral-storage: ""
+    limits:
+      memory: 750Mi
+      cpu: 550m
+      ephemeral-storage: ""
+  eric-oss-app-lcm-data-init:
+    requests:
+      memory: 320Mi
+      cpu: 10m
+      ephemeral-storage: ""
+    limits:
+      memory: 1536Mi
+      cpu: 550m
+      ephemeral-storage: ""
+  eric-oss-app-lcm-ui:
+    requests:
+      memory: 128Mi
+      cpu: 10m
+      ephemeral-storage: ""
+    limits:
+      memory: 256Mi
+      cpu: 100m
+      ephemeral-storage: ""
+  eric-oss-app-lcmTest:
+    requests:
+      memory: 128Mi
+      cpu: 5m
+      ephemeral-storage: ""
+    limits:
+      memory: 1Gi
+      cpu: 256m
+      ephemeral-storage: ""
+
+autoScaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 800Mi
+  targetMemoryUtilizationPercentage: 200m
+
+nodeSelector: {}
+topologySpreadConstraints:
+  deployment: []
+  test: []
+tolerations: []
+
+affinity:
+  podAntiAffinity: "soft"
+  topologyKey: "kubernetes.io/hostname"
+
+eric-lcm-helm-orchestrator:
+  nameOverride: eric-lcm-helm-executor
+  port: 8888
+
+eric-oss-app-onboarding:
+  nameOverride: eric-oss-app-onboarding
+  port: 8080
+
+api-gateway-route:
+  eric-oss-app-lcm:
+    path: /app-manager/lcm
+  eric-oss-app-onboarding:
+    path: /app-manager/onboarding
+
+keyCloak:
+  iam:
+    adminSecret: eric-sec-access-mgmt-creds
+    userKey: kcadminid
+    passwordKey: kcpasswd
+    serviceName: eric-sec-access-mgmt-http
+    port:
+      http: 8080
+      https: 8443
+    cacert:
+      secretName: iam-cacert-secret
+      key: tls.crt
+      filePath: iam/ca.crt
+
+frontEnd:
+  corsValue: "*"
+
+appArmorProfile:
+  # The setting applies to all container when the container name is omitted.
+  # { choice='unconfined, runtime/default, localhost, "" ' } [ default="" ]
+  type: ""
+  # localhostProfile: "TEST PROFILE"
+
+seccompProfile:
+  # The setting applies to all container when the container name is omitted.
+  # { choice='unconfined, runtime/default, localhost, "" ' } [ default="" ]
+  type: ""
+
+objectStore:
+  hostname: eric-data-object-storage-mn
+
+# Distributed Systems Tracing
+dst:
+  enabled: "true"
+  collector:
+    host: "http://eric-dst-collector"
+    protocol: "grpc"
+    polingInterval: 30
+    portOtlpGrpc: "4317"
+    portOtlpHttp: "4318"
+    portJaegerGrpc: "14250"
+  producer:
+    type: B3,W3C
+
+config:
+  acmTimeout: 1200000

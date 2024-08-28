@@ -1,0 +1,77 @@
+/*******************************************************************************
+ * COPYRIGHT Ericsson 2021
+ *
+ *
+ *
+ * The copyright to the computer program(s) herein is the property of
+ *
+ * Ericsson Inc. The programs may be used and/or copied only with written
+ *
+ * permission from Ericsson Inc. or in accordance with the terms and
+ *
+ * conditions stipulated in the agreement/contract under which the
+ *
+ * program(s) have been supplied.
+ ******************************************************************************/
+
+package com.ericsson.oss.ae.api.contracts;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+
+import com.ericsson.oss.ae.api.model.ArtifactInstanceDto;
+import com.ericsson.oss.ae.api.model.ArtifactInstancesDto;
+import com.ericsson.oss.ae.model.entity.HealthStatus;
+import com.ericsson.oss.ae.presentation.controllers.ArtifactInstanceController;
+import com.ericsson.oss.ae.presentation.services.artifactinstance.ArtifactInstanceService;
+import com.ericsson.oss.ae.repositories.ArtifactInstanceRepository;
+
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
+
+@ExtendWith(MockitoExtension.class)
+public class GetAllArtifactInstancesPositiveBase {
+
+    @InjectMocks
+    private ArtifactInstanceController controller;
+
+    @Mock
+    private ArtifactInstanceService service;
+
+    @Mock
+    private ArtifactInstanceRepository repository;
+
+    @BeforeEach
+    public void setup() {
+        given(service.getAllArtifactInstances(any())).willReturn(getArtifactInstances());
+        final StandaloneMockMvcBuilder standaloneMockMvcBuilder = MockMvcBuilders.standaloneSetup(controller, service, repository);
+        RestAssuredMockMvc.standaloneSetup(standaloneMockMvcBuilder);
+    }
+
+    private ArtifactInstancesDto getArtifactInstances() {
+        final ArtifactInstanceDto result = new ArtifactInstanceDto();
+        result.setArtifactInstanceId(1L);
+        result.setArtifactId(123L);
+        result.setHealthStatus(HealthStatus.PENDING.name());
+        result.setCreatedTimestamp("2021-08-19 19:10:25-07");
+
+        final ArtifactInstanceDto resultTwo = new ArtifactInstanceDto();
+        resultTwo.setArtifactInstanceId(2L);
+        resultTwo.setArtifactId(124L);
+        resultTwo.setHealthStatus(HealthStatus.FAILED.name());
+        resultTwo.setCreatedTimestamp("2021-08-19 19:10:25-07");
+
+        final ArtifactInstancesDto artifactInstancesDto = new ArtifactInstancesDto();
+        artifactInstancesDto.addArtifactInstancesItem(result);
+        artifactInstancesDto.addArtifactInstancesItem(resultTwo);
+
+        return artifactInstancesDto;
+    }
+}

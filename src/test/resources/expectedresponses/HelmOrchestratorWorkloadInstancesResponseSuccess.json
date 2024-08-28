@@ -1,0 +1,14 @@
+{
+  "workloadInstanceId": "1c880f7f-00fb-46be-b703-3bc69b8fcc08",
+  "workloadInstanceName": "9558e68d-c4fb-40a8-8ab0-356f49766ca0",
+  "namespace": "appmanager-rapp",
+  "crdNamespace": "eric-crd-ns",
+  "cluster": null,
+  "helmSourceVersions": [
+    "0.1.0-1"
+  ],
+  "version": null,
+  "additionalParameters": {
+    "TEST_KEY": "TEST_VALUE"
+  }
+}

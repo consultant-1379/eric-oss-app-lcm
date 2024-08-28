@@ -1,0 +1,40 @@
+/* style goes here */
+:host{
+  display: inline-block;
+  width: 100%;
+}
+
+.app__count {
+  font-size: 5em;
+  margin-top: .75rem;
+}
+
+.app__count__container {
+  height: fit-content;
+  display: flex;
+  width: 100%;
+  justify-items: start;
+}
+
+.app__count__container > div {
+  padding: 2em 2em 1.25em 2em;
+  min-width: 160px;
+  border-right: 6px solid var(--gray-09);
+}
+
+.app__count__container label {
+  font-size: 16px;
+  text-decoration: none solid;
+}
+
+.app__count__container eui-card{
+  background: transparent;
+  border: none;
+}
+
+.tile__header {
+  padding-bottom: 0 !important;
+}
+.app__count__container eui-tile .tile__header {
+  padding-bottom: 0 !important;
+}

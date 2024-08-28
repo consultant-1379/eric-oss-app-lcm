@@ -1,0 +1,9 @@
+{
+  "type": "Not Found",
+  "title": "Not Found",
+  "status": 404,
+  "detail": "No App Instances were found for appId: 2",
+  "appLcmErrorCode": 1001,
+  "appLcmErrorMessage": "Could not find the app instance specified.",
+  "url": "/app-lcm/v1/apps/2/app-instances"
+}

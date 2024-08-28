@@ -1,0 +1,66 @@
+{
+    "instanceId": "caf50cde-11a2-4915-a49c-609762714a6f",
+    "compositionId": "562ed027-2689-481a-b3a5-e284b1fbc33f",
+    "deployState": "DEPLOYED",
+    "lockState": "LOCKED",
+    "elements": {
+        "709c62b3-8918-41b9-a747-d21eb79c6c23": {
+            "id": "709c62b3-8918-41b9-a747-d21eb79c6c23",
+            "definition": {
+                "name": "com.ericsson.oss.app.mgr.ac.element.AppLcmMicroserviceAutomationCompositionElement",
+                "version": "1.2.3"
+            },
+            "participantId": "101c62b3-8918-41b9-a747-d21eb79c6c91",
+            "deployState": "DEPLOYED",
+            "lockState": "NONE",
+            "description": "Cloud Native LCM Automation Composition Element",
+            "message": "Undeployed",
+            "properties": {
+                "timeout": 10,
+                "namespace": "hart071-eric-eic-5",
+                "keycloakParameters": {
+                    "keycloakClientId": "rappid-5ee77041-a005-4e4b-83b9-7474c36509c6-1697550681184-bcc6b4ce-80cb-46f2-be70-75bc25006f5f",
+                    "keycloakClientSecret": "FlRcr1oFmFFJwFMeFuyZGDnkxAihV0Ix",
+                    "keycloakClientUrl": "https://iam.hart071-x5.ews.gic.ericsson.se"
+                },
+                "userDefinedHelmParameters" : {
+                    "replicaCount": 2,
+                    "networkPolicy.enabled": true,
+                    "podDisruptionBudget.minAvailable": "50%"
+                }
+            },
+            "outProperties": {}
+        },
+        "709c62b3-8918-41b9-a747-d21eb79c6c24": {
+            "id": "709c62b3-8918-41b9-a747-d21eb79c6c24",
+            "definition": {
+                "name": "com.ericsson.oss.app.mgr.ac.element.AppLcmMicroserviceAutomationCompositionElement",
+                "version": "1.2.3"
+            },
+            "participantId": "101c62b3-8918-41b9-a747-d21eb79c6c91",
+            "deployState": "DEPLOYED",
+            "lockState": "NONE",
+            "description": "Cloud Native LCM Automation Composition Element",
+            "message": "Undeployed",
+            "properties": {
+                "timeout": 5,
+                "namespace": "hart071-eric-eic-5",
+                "keycloakParameters": {
+                    "keycloakClientId": "rappid-5ee77041-a005-4e4b-83b9-7474c36509c6-1697550681184-bcc6b4ce-80cb-46f2-be70-75bc25006f5f",
+                    "keycloakClientSecret": "FlRcr1oFmFFJwFMeFuyZGDnkxAihV0Ix",
+                    "keycloakClientUrl": "https://iam.hart071-x5.ews.gic.ericsson.se"
+                }
+            },
+            "userDefinedHelmParameters" : {
+                "replicaCount": 2,
+                "networkPolicy.enabled": true,
+                "podDisruptionBudget.minAvailable": "50%"
+            },
+            "outProperties": {}
+        }
+    },
+        "stateChangeResult": "NO_ERROR",
+        "name": "InstanceHttp",
+        "version": "1.0.1",
+        "description": "Demo automation composition instance Http"
+}

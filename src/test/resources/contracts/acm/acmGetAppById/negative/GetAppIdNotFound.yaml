@@ -1,0 +1,29 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+description: Get app with incorrect url
+name: getAppId_notFound
+priority: 10
+request:
+  method: GET
+  urlPath: /v3/apps/99999a99-9de9-9ad9-9999-999eefd99999
+  headers:
+    Content-Type: application/json
+response:
+  status: 404
+  headers:
+    Content-Type: "application/json"
+  bodyFromFile: responseNotFound.json

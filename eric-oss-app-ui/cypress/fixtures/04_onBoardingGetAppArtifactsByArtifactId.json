@@ -1,0 +1,9 @@
+{
+    "name" : "app-lcm",
+    "location" : "localhost",
+    "id" : 12,
+    "type" : "model",
+    "version" : "6.1.0+66",
+    "errorReponse" : "No artifacts present",
+    "status" : "Success"
+  }

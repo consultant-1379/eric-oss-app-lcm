@@ -1,0 +1,750 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "affinity": {
+            "type": "object",
+            "properties": {
+                "podAntiAffinity": {
+                    "type": "string"
+                },
+                "topologyKey": {
+                    "type": "string"
+                }
+            }
+        },
+        "annotations": {
+            "type": "object"
+        },
+        "api-gateway-route": {
+            "type": "object",
+            "properties": {
+                "eric-oss-app-lcm": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "eric-oss-app-onboarding": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "appArmorProfile": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "autoScaling": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "maxReplicas": {
+                    "type": "integer"
+                },
+                "minReplicas": {
+                    "type": "integer"
+                },
+                "targetCPUUtilizationPercentage": {
+                    "type": "string"
+                },
+                "targetMemoryUtilizationPercentage": {
+                    "type": "string"
+                }
+            }
+        },
+        "config": {
+            "type": "object",
+            "properties": {
+                "acmTimeout": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dst": {
+            "type": "object",
+            "properties": {
+                "collector": {
+                    "type": "object",
+                    "properties": {
+                        "host": {
+                            "type": "string"
+                        },
+                        "polingInterval": {
+                            "type": "integer"
+                        },
+                        "portJaegerGrpc": {
+                            "type": "string"
+                        },
+                        "portOtlpGrpc": {
+                            "type": "string"
+                        },
+                        "portOtlpHttp": {
+                            "type": "string"
+                        },
+                        "protocol": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "enabled": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "eric-data-document-db": {
+            "type": "object",
+            "properties": {
+                "appmgrDb": {
+                    "type": "object",
+                    "properties": {
+                        "postgresDatabase": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "credentials": {
+                    "type": "object",
+                    "properties": {
+                        "kubernetesSecretName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "originalAppLcmDb": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "postgresDatabase": {
+                    "type": "string"
+                },
+                "postgresUser": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "port": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        "eric-lcm-helm-orchestrator": {
+            "type": "object",
+            "properties": {
+                "nameOverride": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            }
+        },
+        "eric-oss-app-onboarding": {
+            "type": "object",
+            "properties": {
+                "nameOverride": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                }
+            }
+        },
+        "eric-pm-server": {
+            "type": "object",
+            "properties": {
+                "rbac": {
+                    "type": "object",
+                    "properties": {
+                        "appMonitoring": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "frontEnd": {
+            "type": "object",
+            "properties": {
+                "corsValue": {
+                    "type": "string"
+                }
+            }
+        },
+        "fullnameOverride": {
+            "type": "string"
+        },
+        "imageCredentials": {
+            "type": "object",
+            "properties": {
+                "eric-oss-app-lcm": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "object",
+                            "properties": {
+                                "imagePullPolicy": {
+                                    "type": "null"
+                                }
+                            }
+                        }
+                    }
+                },
+                "eric-oss-app-lcmTest": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "object",
+                            "properties": {
+                                "imagePullPolicy": {
+                                    "type": "null"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "imagePullSecrets": {
+            "type": "array"
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "hosts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "host": {
+                                "type": "string"
+                            },
+                            "paths": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "ingressClass": {
+                    "type": "string"
+                },
+                "tls": {
+                    "type": "object"
+                }
+            }
+        },
+        "keyCloak": {
+            "type": "object",
+            "properties": {
+                "iam": {
+                    "type": "object",
+                    "properties": {
+                        "adminSecret": {
+                            "type": "string"
+                        },
+                        "cacert": {
+                            "type": "object",
+                            "properties": {
+                                "filePath": {
+                                    "type": "string"
+                                },
+                                "key": {
+                                    "type": "string"
+                                },
+                                "secretName": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "passwordKey": {
+                            "type": "string"
+                        },
+                        "port": {
+                            "type": "object",
+                            "properties": {
+                                "http": {
+                                    "type": "integer"
+                                },
+                                "https": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        },
+                        "userKey": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "labels": {
+            "type": "object"
+        },
+        "log": {
+            "type": "object",
+            "properties": {
+                "streamingMethod": {
+                    "type": "null"
+                }
+            }
+        },
+        "nameOverride": {
+            "type": "string"
+        },
+        "networkPolicy": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "nodeSelector": {
+            "type": "object"
+        },
+        "objectStore": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                }
+            }
+        },
+        "podAnnotations": {
+            "type": "object"
+        },
+        "podDisruptionBudget": {
+            "type": "object",
+            "properties": {
+                "maxUnavailable": {
+                    "type": "null"
+                },
+                "minAvailable": {
+                    "type": "string"
+                }
+            }
+        },
+        "podPriority": {
+            "type": "object",
+            "properties": {
+                "eric-oss-app-lcm": {
+                    "type": "object",
+                    "properties": {
+                        "priorityClassName": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "probes": {
+            "type": "object",
+            "properties": {
+                "eric-oss-app-lcm": {
+                    "type": "object",
+                    "properties": {
+                        "livenessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "readinessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "path": {
+                                    "type": "string"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "scheme": {
+                                    "type": "string"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                },
+                "eric-oss-app-lcm-ui": {
+                    "type": "object",
+                    "properties": {
+                        "livenessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "readinessProbe": {
+                            "type": "object",
+                            "properties": {
+                                "failureThreshold": {
+                                    "type": "integer"
+                                },
+                                "initialDelaySeconds": {
+                                    "type": "integer"
+                                },
+                                "path": {
+                                    "type": "string"
+                                },
+                                "periodSeconds": {
+                                    "type": "integer"
+                                },
+                                "scheme": {
+                                    "type": "string"
+                                },
+                                "successThreshold": {
+                                    "type": "integer"
+                                },
+                                "timeoutSeconds": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "prometheus": {
+            "type": "object",
+            "properties": {
+                "interval": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "scrape": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "replicaCount": {
+            "type": "integer"
+        },
+        "resources": {
+            "type": "object",
+            "properties": {
+                "eric-oss-app-lcm": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "eric-oss-app-lcm-data-init": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "eric-oss-app-lcm-ui": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "eric-oss-app-lcmTest": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "string"
+                                },
+                                "ephemeral-storage": {
+                                    "type": "string"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "seccompProfile": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "securityPolicy": {
+            "type": "object",
+            "properties": {
+                "rolename": {
+                    "type": "string"
+                }
+            }
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "endpoints": {
+                    "type": "object",
+                    "properties": {
+                        "chassisapi": {
+                            "type": "object",
+                            "properties": {
+                                "tls": {
+                                    "type": "object",
+                                    "properties": {
+                                        "enforced": {
+                                            "type": "string"
+                                        },
+                                        "verifyClientCertificate": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "frontendPort": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "serviceAccount": {
+            "type": "object",
+            "properties": {
+                "create": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "terminationGracePeriodSeconds": {
+            "type": "integer"
+        },
+        "tolerations": {
+            "type": "array"
+        },
+        "topologySpreadConstraints": {
+            "type": "object",
+            "properties": {
+                "deployment": {
+                    "type": "array"
+                },
+                "test": {
+                    "type": "array"
+                }
+            }
+        },
+        "updateStrategy": {
+            "type": "object",
+            "properties": {
+                "rollingUpdate": {
+                    "type": "object",
+                    "properties": {
+                        "maxSurge": {
+                            "type": "integer"
+                        },
+                        "maxUnavailable": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

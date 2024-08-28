@@ -1,0 +1,10 @@
+{
+  "compositionId": "cbf0df1c-7aa5-4b94-8dc7-f5952821b658",
+  "state": "PRIMING",
+  "stateChangeResult": "FAILED",
+  "elementStateMap": {
+    "onap.policy.clamp.ac.element.Example": {
+      "message": "Test fail, response from participant"
+    }
+  }
+}

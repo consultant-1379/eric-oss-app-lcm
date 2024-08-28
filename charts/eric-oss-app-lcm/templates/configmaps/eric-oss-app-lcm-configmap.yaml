@@ -1,0 +1,63 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "eric-oss-app-lcm.name" . }}-configmap
+  labels:
+    {{- include "eric-oss-app-lcm.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-app-lcm.annotations" . | nindent 4 }}
+data:
+  application.properties: |
+    management.endpoint.metrics.enabled=true
+    management.endpoints.web.exposure.include=*
+    management.endpoint.prometheus.enabled=true
+    management.metrics.export.prometheus.enabled=true
+    management.metrics.web.server.auto-time-requests=true
+    management.metrics.enable.jvm=true
+    management.metrics.distribution.percentiles-histogram.http.server.requests=true
+    management.metrics.distribution.sla.http.server.requests=100ms,300ms,500ms
+    monitoringJob.fixedRate.in.milliseconds: 30000
+    monitoringJob.initialDelay.in.milliseconds: 30000
+    deletionJob.fixedRate.in.milliseconds: 30000
+    deletionJob.initialDelay.in.milliseconds: 15000
+
+  application.yaml: |
+    spring:
+      datasource:
+        url: ${APP_LCM_DB_JDBC_CONNECTION}
+        username: ${APP_LCM_DB_USER}
+        password: ${APP_LCM_DB_PASSWORD}
+        hikari:
+          data-source-properties: stringtype=unspecified
+      flyway:
+        enabled: true
+        url: ${APP_LCM_DB_JDBC_CONNECTION}
+        user: ${APP_LCM_DB_USER}
+        password: ${APP_LCM_DB_PASSWORD}
+        baseline-on-migrate: true
+        schemas: app_lcm_schema, public, acm_schema
+      jpa:
+        properties:
+          hibernate:
+            default_schema: app_lcm_schema
+            jdbc:
+              lob:
+                non_contextual_creation: true
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+    acmTimeout: {{ include "eric-oss-app-lcm.acmTimeout" . }}

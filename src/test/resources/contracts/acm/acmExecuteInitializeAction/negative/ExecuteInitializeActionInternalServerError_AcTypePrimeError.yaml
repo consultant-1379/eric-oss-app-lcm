@@ -1,0 +1,36 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+description: Initialize App Internal Server Error
+name: initializeApp_InternalServerError
+priority: 8
+request:
+  method: POST
+  urlPath: /v3/apps/64e2e1bb-5e99-45fa-9d1a-67a7df7d0e42/initialization-actions
+  headers:
+    Content-Type: application/json
+  body: |
+    {
+      "action" : "INITIALIZE"
+    }
+response:
+  status: 500
+  headers:
+    Content-Type: "application/json"
+  body:
+    title: Initialize App Action request failure
+    status: 500
+    detail: Error while Priming AC Type definition in ACM-R.

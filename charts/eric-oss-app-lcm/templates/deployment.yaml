@@ -1,0 +1,476 @@
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "eric-oss-app-lcm.name" . }}
+  labels:
+    {{- include "eric-oss-app-lcm.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-app-lcm.annotationsWithPrometheus" . | nindent 4 }}
+spec:
+{{- if not .Values.autoScaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "eric-oss-app-lcm.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    type: {{ .Values.updateStrategy.type | quote }}
+    {{- if and (eq .Values.updateStrategy.type "RollingUpdate") .Values.updateStrategy.rollingUpdate }}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
+    {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- $commonLabels :=  include "eric-oss-app-lcm.labels" . | fromYaml }}
+        {{- $directStreaming := include "eric-oss-app-lcm.directStreamingLabel" . | fromYaml }}
+        {{- $serviceMesh := include "eric-oss-app-lcm.service-mesh-inject" . | fromYaml }}
+        {{- $dstLabels := include "eric-oss-app-lcm.dstLabels" . | fromYaml }}
+        {{- include "eric-oss-app-lcm.service-mesh-ism2osm-labels" . | nindent 8 }}
+        {{- include "eric-oss-app-lcm.mergeLabels" (dict "location" .Template.Name "sources" (list $commonLabels $serviceMesh $directStreaming $dstLabels)) | trim | nindent 8 }}
+      annotations:
+        {{- $prometheus := include "eric-oss-app-lcm.prometheus" .| fromYaml }}
+        {{- $commonAnnotations := include "eric-oss-app-lcm.annotations" . | fromYaml }}
+        {{- $serviceMesh := include "eric-oss-app-lcm.service-mesh-inject" . | fromYaml }}
+        {{- $istioProxyConfig := include "eric-oss-app-lcm.istio-proxy-config-annotation" .| fromYaml }}
+        {{- $serviceMeshVersion := include "eric-oss-app-lcm.service-mesh-version" . | fromYaml }}
+        {{- include "eric-oss-app-lcm.service-mesh-volume" .| nindent 8 }}
+        {{- include "eric-oss-app-lcm.apparmor-annotations" .| nindent 8 }}
+        {{- include "eric-oss-app-lcm.mergeAnnotations" (dict "location" .Template.Name "sources" (list $prometheus $commonAnnotations $serviceMesh $istioProxyConfig $serviceMeshVersion)) | trim | nindent 8 }}
+    spec:
+      {{- if include "eric-oss-app-lcm.pullSecret" . }}
+      imagePullSecrets:
+        - name: {{ include "eric-oss-app-lcm.pullSecret" . | quote}}
+      {{- end }}
+      serviceAccountName: {{ template "eric-oss-app-lcm.fullname" . }}
+
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds:
+        {{- include "eric-oss-app-lcm.terminationGracePeriodSeconds" . | nindent 8 }}
+      {{- end }}
+
+      {{- if (index .Values.podPriority "eric-oss-app-lcm" "priorityClassName") }}
+      priorityClassName: {{ index .Values.podPriority "eric-oss-app-lcm" "priorityClassName" | quote }}
+      {{- end }}
+
+      securityContext:
+        fsGroup: {{ include "eric-oss-app-lcm.fsGroup.coordinated" . }}
+      volumes:
+      {{ $dbConfig := index .Values "eric-data-document-db" }}
+        - name: scripts
+          configMap:
+            name: {{ template "eric-oss-app-lcm.name" . }}-script
+            defaultMode: 0777
+        - name: acm-scripts
+          configMap:
+            name: {{ template "eric-oss-app-lcm.name" . }}-init-acm-script
+            defaultMode: 0777
+        - name: config-volume
+          configMap:
+            name: {{ include "eric-oss-app-lcm.name" . }}-configmap
+        - name: tmp-volume
+          emptyDir: {}
+        - name: log-control-config
+          configMap:
+            name: {{ include "eric-oss-app-lcm.name" . }}-log-config
+        - name: ui-home
+          emptyDir: {}
+        - name: apache2
+          emptyDir: {}
+        - name: application
+          emptyDir: {}
+        - name: varlog
+          emptyDir: {}
+        - name: create-cacert-volume
+          secret:
+            secretName: {{ .Values.keyCloak.iam.cacert.secretName }}
+            items:
+              - key: {{ .Values.keyCloak.iam.cacert.key }}
+                path: {{ .Values.keyCloak.iam.cacert.filePath }}
+        {{- if (eq (include "eric-oss-app-lcm.global-security-tls-enabled" .) "true") }}
+        - name: init-sip-tls-ca
+          secret:
+            secretName: eric-sec-sip-tls-trusted-root-cert
+            defaultMode: 0440
+        - name: init-cert
+          secret:
+            secretName: {{ $dbConfig.name }}-postgres-cert
+            defaultMode: 0440
+        {{- end }}
+      initContainers:
+        {{ $dbConfig := index .Values "eric-data-document-db" }}
+        - name: {{ template "eric-oss-app-lcm.name" . }}-data-init
+          image: {{ template "eric-oss-app-lcm.initDbImagePath" . }}
+          imagePullPolicy: {{ include "eric-oss-app-lcm.imagePullPolicy" . | quote}}
+          command:
+            - /bin/sh
+            - '-c'
+            - |
+              /scripts/init-db.sh
+              /scripts/acm/init-acm-schema.sh
+          env:
+          - name: PGHOST
+            value: {{ $dbConfig.name }}
+          - name: PGPORT
+            value: {{ $dbConfig.service.port | quote }}
+          - name: PGDATABASE
+            value: {{ $dbConfig.postgresDatabase }}
+          - name: PGUSER
+            value: postgres
+          - name: APP_LCM_DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ $dbConfig.credentials.kubernetesSecretName }}
+                key: custom-user
+          - name: APPMGRPGDATABASE
+            value: {{ $dbConfig.appmgrDb.postgresDatabase }}
+        {{- if (eq (include "eric-oss-app-lcm.global-security-tls-enabled" .) "true") }}
+          - name: PGSSLMODE
+            value: verify-full
+          - name: PGSSLCERT
+            value: /opt/mtls/cert/clicert.pem
+          - name: PGSSLKEY
+            value: /opt/mtls/cert/cliprivkey.pem
+          - name: PGSSLROOTCERT
+            value: /opt/mtls/ca/cacertbundle.pem
+        {{- else }}
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ $dbConfig.credentials.kubernetesSecretName }}
+                key: super-pwd
+        {{- end }}
+          resources:
+            requests:
+            {{- if (index .Values "resources" "eric-oss-app-lcm-data-init" "requests" "cpu") }}
+              cpu: {{ (index .Values "resources" "eric-oss-app-lcm-data-init" "requests" "cpu" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-data-init" "requests" "memory") }}
+              memory: {{ (index .Values "resources" "eric-oss-app-lcm-data-init" "requests" "memory" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-data-init" "requests" "ephemeral-storage") }}
+            {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcm-data-init" "requests" "ephemeral-storage" | quote) }}
+            {{- end }}
+            limits:
+            {{- if (index .Values "resources" "eric-oss-app-lcm-data-init" "limits" "cpu") }}
+              cpu: {{ (index .Values "resources" "eric-oss-app-lcm-data-init" "limits" "cpu" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-data-init" "limits" "memory") }}
+              memory: {{ (index .Values "resources" "eric-oss-app-lcm-data-init" "limits" "memory" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-data-init" "limits" "ephemeral-storage") }}
+            {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcm-data-init" "limits" "ephemeral-storage" | quote) }}
+            {{- end }}
+          volumeMounts:
+          - name: scripts
+            mountPath: /scripts
+          - name: acm-scripts
+            mountPath: /scripts/acm
+        {{- if (eq (include "eric-oss-app-lcm.global-security-tls-enabled" .) "true") }}
+          - name: init-cert
+            mountPath: /opt/mtls/cert
+            readOnly: true
+          - name: init-sip-tls-ca
+            mountPath: /opt/mtls/ca
+            readOnly: true
+        {{- end }}
+      containers:
+        {{ $dbConfig := index .Values "eric-data-document-db" }}
+        - name: eric-oss-app-lcm
+          image: {{ template "eric-oss-app-lcm.mainImagePath" . }}
+          imagePullPolicy: {{ template "eric-oss-app-lcm.registryImagePullPolicy" . }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - all
+            {{- include "eric-oss-app-lcm.seccomp-profile" . | indent 10 }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: log-control-config
+              mountPath: /logcontrol
+            - name: create-cacert-volume
+              mountPath: /mnt/certs
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: {{ index .Values "probes" "eric-oss-app-lcm" "livenessProbe" "initialDelaySeconds" }}
+            periodSeconds: {{ index .Values "probes" "eric-oss-app-lcm" "livenessProbe" "periodSeconds" }}
+            timeoutSeconds: {{ index .Values "probes" "eric-oss-app-lcm" "livenessProbe" "timeoutSeconds" }}
+            failureThreshold: {{ index .Values "probes" "eric-oss-app-lcm" "livenessProbe" "failureThreshold" }}
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+          readinessProbe:
+            initialDelaySeconds: {{ index .Values "probes" "eric-oss-app-lcm" "readinessProbe" "initialDelaySeconds" }}
+            periodSeconds: {{ index .Values "probes" "eric-oss-app-lcm" "readinessProbe" "periodSeconds" }}
+            timeoutSeconds: {{ index .Values "probes" "eric-oss-app-lcm" "readinessProbe" "timeoutSeconds" }}
+            failureThreshold: {{ index .Values "probes" "eric-oss-app-lcm" "readinessProbe" "failureThreshold" }}
+            httpGet:
+              path: /actuator/health
+              port: http
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "/bin/sh", "-c",
+                    " date '+[%c] Waiting for main container termination' >> /dev/termination-log;
+                            sleep 30s" ]
+          env:
+          - name: NAMESPACE
+            value: {{ .Release.Namespace }}
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: APP_ID
+            value: {{ template "eric-oss-app-lcm.application" . }}
+          - name: SERVICE_ID
+            value: {{ template "eric-oss-app-lcm.envVarSessionId" . }}
+          - name: PAYLOAD_USERNAME_KEY
+            value: preferred_username
+          - name: APP_ONBOARDING_SERVICE_HOSTNAME
+            value: {{ index .Values "eric-oss-app-onboarding" "nameOverride" | quote }}
+          - name: APP_ONBOARDING_SERVICE_PORT
+            value: {{ index .Values "eric-oss-app-onboarding" "port" | quote }}
+          - name: HELM_ORCHESTRATOR_SERVICE_HOSTNAME
+            value: {{ index .Values "eric-lcm-helm-orchestrator" "nameOverride" | quote }}
+          - name: HELM_ORCHESTRATOR_SERVICE_PORT
+            value: {{ index .Values "eric-lcm-helm-orchestrator" "port" | quote }}
+          - name: APP_LCM_SERVICE_HOSTNAME
+            value: {{ include "eric-oss-app-lcm.name" . }}
+          - name: APP_LCM_SERVICE_PORT
+            value: {{ index .Values "service" "port" | quote }}
+          - name: APP_MANAGER_APP_LCM_ROUTE_PATH
+            value: {{ index .Values "api-gateway-route" "eric-oss-app-lcm" "path" | quote }}
+          - name: APP_MANAGER_APP_ONBOARDING_ROUTE_PATH
+            value: {{ index .Values "api-gateway-route" "eric-oss-app-onboarding" "path" | quote }}
+          - name: TZ
+            value: {{ template "eric-oss-app-lcm.timezone" . }}
+          - name: KEYCLOAK_ADMIN_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.keyCloak.iam.adminSecret | quote }}
+                key: {{ .Values.keyCloak.iam.userKey | quote }}
+                optional: true
+          - name: KEYCLOAK_ADMIN_P
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.keyCloak.iam.adminSecret | quote }}
+                key: {{ .Values.keyCloak.iam.passwordKey | quote }}
+                optional: true
+          - name: KEYCLOAK_SERVICE_HOSTNAME
+            value: {{ .Values.keyCloak.iam.serviceName | quote }}
+          - name: LOGBACK_CONFIG_FILE
+            value: classpath:logback-json.xml
+          - name: RUN_TIME_LEVEL_CONTROL
+            value: "true"
+          - name: IAM_CLIENT_CREDENTIAL_GRANT_AUTHN_ENABLED
+            {{- if eq (include "eric-oss-app-lcm.iam-client-cred-env" .) "true" }}
+            value: "true"
+            {{- else }}
+            value: "false"
+            {{- end }}
+          - name: KEYCLOAK_SERVICE_PORT
+          {{- if eq (include "eric-oss-app-lcm.global-security-tls-enabled" .) "true" }}
+            value: {{ .Values.keyCloak.iam.port.https | quote }}
+          {{- else }}
+            value: {{ .Values.keyCloak.iam.port.http | quote }}
+          {{- end }}
+      {{- if .Values.global }}
+        {{- if .Values.global.security }}
+          {{- if .Values.global.security.tls }}
+            {{- if .Values.global.security.tls.enabled }}
+          - name: CONNECT_MODE
+            value: "tls"
+            {{- if (eq .Values.service.endpoints.chassisapi.tls.enforced "required") }}
+          - name: TLS_MODE
+            value: "only_tls"
+            {{- if (eq .Values.service.endpoints.chassisapi.tls.verifyClientCertificate "required") }}
+          - name: TLS_CA
+            value: "ca_path"
+            {{- end }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- include "eric-oss-app-lcm.dstEnv" . | indent 10 }}
+      {{- include "eric-oss-app-lcm.loggingEnv" . | indent 10 }}
+          - name: APP_LCM_DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ $dbConfig.credentials.kubernetesSecretName }}
+                key: custom-user
+          - name: APP_LCM_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ $dbConfig.credentials.kubernetesSecretName }}
+                key: custom-pwd
+          - name: APP_LCM_DB_DRIVER
+            value: org.postgresql.Driver
+          - name: APP_LCM_DB_JDBC_CONNECTION
+            value: jdbc:postgresql://{{ $dbConfig.name }}:{{ $dbConfig.service.port }}/{{ $dbConfig.postgresDatabase }}
+          - name: PGDATABASE
+            value: {{ $dbConfig.postgresDatabase }}
+          - name: CORS_VALUE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ include "eric-oss-app-lcm.fullname" . }}-frontend-configmap
+                key: corsValue
+          - name: OBJECT_STORE_HOSTNAME
+            value: {{ .Values.objectStore.hostname | quote }}
+          - name: OBJECT_STORE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "eric-oss-app-lcm.secret-key-reference" . }}
+                key: accesskey
+                optional: true
+          - name: OBJECT_STORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "eric-oss-app-lcm.secret-key-reference" . }}
+                key: secretkey
+                optional: true
+          resources:
+            requests:
+            {{- if (index .Values "resources" "eric-oss-app-lcm" "requests" "cpu") }}
+              cpu: {{ (index .Values "resources" "eric-oss-app-lcm" "requests" "cpu" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm" "requests" "memory") }}
+              memory: {{ (index .Values "resources" "eric-oss-app-lcm" "requests" "memory" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm" "requests" "ephemeral-storage") }}
+            {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcm" "requests" "ephemeral-storage" | quote) }}
+            {{- end }}
+            limits:
+            {{- if (index .Values "resources" "eric-oss-app-lcm" "limits" "cpu") }}
+              cpu: {{ (index .Values "resources" "eric-oss-app-lcm" "limits" "cpu" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm" "limits" "memory") }}
+              memory: {{ (index .Values "resources" "eric-oss-app-lcm" "limits" "memory" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm" "limits" "ephemeral-storage") }}
+            {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcm" "limits" "ephemeral-storage" | quote) }}
+            {{- end }}
+        - name: eric-oss-app-lcm-ui
+          image: {{ template "eric-oss-app-lcm.eric-oss-app-ui" . }}
+          imagePullPolicy: {{ template "eric-oss-app-lcm.registryImagePullPolicy" . }}
+          volumeMounts:
+            - name: ui-home
+              mountPath: /home/node
+            - name: apache2
+              mountPath: /etc/apache2
+            - name: application
+              mountPath: /app
+            - name: varlog
+              mountPath: /var/log/apache2
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - all
+            {{- include "eric-oss-app-lcm.seccomp-profile" . | indent 10 }}
+          ports:
+            - name: frontend-http
+              containerPort: 4200
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: {{ index .Values "probes" "eric-oss-app-lcm-ui" "livenessProbe" "initialDelaySeconds" }}
+            periodSeconds: {{ index .Values "probes" "eric-oss-app-lcm-ui" "livenessProbe" "periodSeconds" }}
+            timeoutSeconds: {{ index .Values "probes" "eric-oss-app-lcm-ui" "livenessProbe" "timeoutSeconds" }}
+            failureThreshold: {{ index .Values "probes" "eric-oss-app-lcm-ui" "livenessProbe" "failureThreshold" }}
+            httpGet:
+              path: {{ index .Values "probes" "eric-oss-app-lcm-ui" "readinessProbe" "path" }}
+              port: {{ index .Values "service" "frontendPort" }}
+          readinessProbe:
+            initialDelaySeconds: {{ index .Values "probes" "eric-oss-app-lcm-ui" "readinessProbe" "initialDelaySeconds" }}
+            periodSeconds: {{ index .Values "probes" "eric-oss-app-lcm-ui" "readinessProbe" "periodSeconds" }}
+            timeoutSeconds: {{ index .Values "probes" "eric-oss-app-lcm-ui" "readinessProbe" "timeoutSeconds" }}
+            failureThreshold: {{ index .Values "probes" "eric-oss-app-lcm-ui" "readinessProbe" "failureThreshold" }}
+            httpGet:
+              path: {{ index .Values "probes" "eric-oss-app-lcm-ui" "readinessProbe" "path" }}
+              port: {{ index .Values "service" "frontendPort" }}
+          resources:
+            requests:
+            {{- if (index .Values "resources" "eric-oss-app-lcm-ui" "requests" "cpu") }}
+              cpu: {{ (index .Values "resources" "eric-oss-app-lcm-ui" "requests" "cpu" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-ui" "requests" "memory") }}
+              memory: {{ (index .Values "resources" "eric-oss-app-lcm-ui" "requests" "memory" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-ui" "requests" "ephemeral-storage") }}
+            {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcm-ui" "requests" "ephemeral-storage" | quote) }}
+            {{- end }}
+            limits:
+            {{- if (index .Values "resources" "eric-oss-app-lcm-ui" "limits" "cpu") }}
+              cpu: {{ (index .Values "resources" "eric-oss-app-lcm-ui" "limits" "cpu" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-ui" "limits" "memory") }}
+              memory: {{ (index .Values "resources" "eric-oss-app-lcm-ui" "limits" "memory" | quote) }}
+            {{- end }}
+            {{- if (index .Values "resources" "eric-oss-app-lcm-ui" "limits" "ephemeral-storage") }}
+            {{ println "  ephemeral-storage:" (index .Values "resources" "eric-oss-app-lcm-ui" "limits" "ephemeral-storage" | quote) }}
+            {{- end }}
+      nodeSelector: {{ include "eric-oss-app-lcm.nodeSelector" . | nindent 6 -}}
+      {{- if .Values.tolerations}}
+      tolerations:
+        {{- include "eric-oss-app-lcm.tolerations" . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints.deployment }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if eq .Values.affinity.podAntiAffinity "hard" }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ include "eric-oss-app-lcm.name" . }}
+            topologyKey: {{ .Values.affinity.topologyKey | quote }}
+      {{- else if eq .Values.affinity.podAntiAffinity  "soft" }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{ include "eric-oss-app-lcm.name" . }}
+              topologyKey: {{ .Values.affinity.topologyKey | quote }}
+      {{- end }}

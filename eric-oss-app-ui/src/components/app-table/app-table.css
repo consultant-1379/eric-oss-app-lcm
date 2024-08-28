@@ -1,0 +1,16 @@
+/* style goes here */
+:host{
+  display: inline-block;
+  /* padding: 20px; */
+  width: 100%;
+  /* padding-top: 0; */
+  margin-top: 0.5rem
+}
+
+eui-button {
+  margin-top: 10px;
+}
+
+:host() .tile__header {
+  padding-bottom: 0 !important;
+}

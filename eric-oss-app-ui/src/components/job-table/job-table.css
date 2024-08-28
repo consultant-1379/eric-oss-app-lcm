@@ -1,0 +1,29 @@
+/* style goes here */
+:host{
+  display: inline-block;
+  /* padding: 20px; */
+  width: 100%;
+  /* padding-top: 0; */
+  margin-top: 0.5rem;
+}
+
+:host() .tile__header {
+  padding-bottom: 0 !important;
+}
+
+.job__table__container eui-tile .tile__header {
+  padding-bottom: 0 !important;
+}
+
+:host eui-table {
+  height: calc(100vh - 455px) !important;
+}
+
+:host eui-tile {
+  position: relative;
+}
+
+:host #delete {
+  position: absolute;
+  right: 15px;
+}

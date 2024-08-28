@@ -1,0 +1,88 @@
+#
+# COPYRIGHT Ericsson 2024
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: eric-oss-app-lcm
+  title: App LCM
+  description: "Description: Application LCM uService is used to handle applications that follow ORAN standards and have been previously onboarded. App LCM controls and monitors the life cycle of the apps and their artefacts It allows Instantiation, termination and deletion of the instances. It allows multiple instances of same app and version."
+  annotations:
+    backstage.io/source-location: url:https://gerrit-gamma.gic.ericsson.se/plugins/gitiles/OSS/com.ericsson.oss.ae/eric-oss-app-lcm
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/name=eric-oss-app-lcm'
+    gerrit/component: OSS/com.ericsson.oss.ae/eric-oss-app-lcm
+    sonarqube.org/project-key: com.ericsson.oss.ae:eric-oss-app-lcm
+    jira.com/project-keys: IDUN
+    jira.com/filter-ids: "261116"
+    jenkins:
+      fem6s11-eiffel216.eiffel.gic.ericsson.se:8443/eric-oss-app-lcm_PreCodeReview_Hybrid/,
+      fem6s11-eiffel216.eiffel.gic.ericsson.se:8443/eric-oss-app-lcm_Publish_Hybrid/
+    spinnaker.io/application-name: app-mgr-e2e-cicd
+    spinnaker.io/pipelines: eric-oss-app-lcm-E2E-Flow
+  links:
+    - url: https://mimer.internal.ericsson.com/productPage?activeView=productDetails&productNumber=APR201533
+      title: Mimer
+      icon: dashboard
+    - url: https://eteamspace.internal.ericsson.com/display/IDUN/Team+RogerRoger
+      title: Team Roger Roger Confluence
+      icon: dashboard
+    - url: https://adp.ericsson.se/marketplace/app-lcm
+      title: ADP
+      icon: dashboard
+  tags:
+    - ericsson-intelligent-controller
+  roles:
+    product-owner: ekmauhr
+    microservice-architect: zfedcac
+    line-manager: esunbal
+    scrum-master: zmocrob
+    ci-spoc: zosuwil
+    security-master: zpiejor
+  productProperties:
+    definition:
+      $yaml: https://gerrit-gamma.gic.ericsson.se/plugins/gitiles/OSS/com.ericsson.oss.ae/eric-oss-app-lcm/+/refs/heads/master/plms/product_structure.yaml
+  approval:
+    date: 12-03-24
+    approver: epagrac
+
+spec:
+  system: app-management
+  lifecycle: production
+  owner: rogerroger
+  type: microservice
+  providesApis:
+    - app-lcm-api
+  dependsOn:
+    - component:eric-appmgr-data-document-db
+    - component:eric-oss-acm-runtime
+    - component:eric-data-object-storage-mn
+    - component:eric-sec-access-mgmt
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: app-lcm-api
+  title: App LCM API
+  description: App LCM API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: rogerroger
+  system: app-management
+  definition:
+   $text: https://gerrit-gamma.gic.ericsson.se/plugins/gitiles/OSS/com.ericsson.oss.ae/eric-oss-app-lcm/+/refs/heads/master/src/main/resources/v1/eric-oss-app-lcm-openapi.yaml

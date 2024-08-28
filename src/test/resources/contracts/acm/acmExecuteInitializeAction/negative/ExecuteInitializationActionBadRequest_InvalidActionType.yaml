@@ -1,0 +1,34 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+description: Initialize App Bad Request
+name: initializeApp_BadRequest
+priority: 8
+request:
+  method: POST
+  urlPath: /v3/apps/64e2e1bb-5e99-45fa-9d1a-67a7df7d0e41/initialization-actions
+  headers:
+    Content-Type: application/json
+  body:
+    action: INVALID-ACTION
+response:
+  status: 400
+  headers:
+    Content-Type: "application/json"
+  body:
+    title: Initialize App Action request failure
+    status: 400
+    detail: Action type provided is not a valid action.

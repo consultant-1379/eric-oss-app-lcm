@@ -1,0 +1,20 @@
+{
+    "artifactInstanceId": 1,
+    "artifactId": 123,
+    "healthStatus": "PENDING",
+    "createdTimestamp": "2021-08-19 19:10:25-07",
+    "links": [
+        {
+            "rel": "app-instance",
+            "href": " app-manager/lcm/app-lcm/v1/app-instances/1"
+        },
+        {
+            "rel": "app",
+            "href": "app/manager/onboarding/v1/apps/456"
+        },
+        {
+            "rel": "artifact",
+            "href": "app/manager/onboarding/v1/apps/456/artifact/123"
+        }
+    ]
+}

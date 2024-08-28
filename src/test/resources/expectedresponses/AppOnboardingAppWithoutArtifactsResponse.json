@@ -1,0 +1,14 @@
+{
+  "id": 4,
+  "name": "eric-oss-anr5gassist",
+  "username": "Unknown",
+  "version": "1.0.51",
+  "size": "100MB",
+  "vendor": "Ericsson",
+  "type": "rApp",
+  "onboardedDate": "2021-11-19T13:36:32.185+00:00",
+  "status": "ONBOARDED",
+  "artifacts": [
+  ],
+  "events": []
+}

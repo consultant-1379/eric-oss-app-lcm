@@ -1,0 +1,7 @@
+{
+    "ACCESS_DENIED": "Access Denied",
+    "USER_ACCESS_ERROR": "Your role does not allow you access to this application.",
+    "CONTACT_SYSTEM_ADMIN": "Contact your system administrator to change your access rights.",
+    "RETURN_TO_LAUNCHER": "Return to the Application Launcher", 
+    "RETRY": "Retry"
+}

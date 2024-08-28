@@ -1,0 +1,29 @@
+documents:
+  # document name
+  - name: user-guide
+    # file names of files to be packaged in the document
+    files:
+      - user_guide/user_guide_template.md
+      - user_guide/architecture_diagram_app_lcm.png
+      - user_guide/state_diagram_app.jpg
+      - user_guide/state_diagram_instance.png
+  # document name
+  - name: app-dev-guide
+    # file names of files to be packaged in the document
+    files:
+      - developers_guide/developers_guide_template.md
+  # document name
+  - name: pri
+    # file names of files to be packaged in the document
+    files:
+      - pri/pri.md
+  # document name
+  - name: software-vendor-list
+    # file names of files to be packaged in the document
+    files:
+      - vendor_list/software-vendor-list.md
+  # document name
+  - name: test-report
+    # file names of files to be packaged in the document
+    files:
+      - test_report/test-report.md

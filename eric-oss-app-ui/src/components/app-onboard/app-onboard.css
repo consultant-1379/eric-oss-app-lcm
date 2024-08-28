@@ -1,0 +1,24 @@
+/* style goes here */
+:host{
+  display: block;
+}
+
+eui-dialog > div {
+  margin-top: -12px !important;
+}
+
+#onboard_inputs, #onboard_spinner {
+  position: relative;
+  display: block;
+}
+
+#onboard_spinner {
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+eui-text-field input{
+  width: auto !important;
+}

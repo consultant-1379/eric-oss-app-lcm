@@ -1,0 +1,777 @@
+#
+# COPYRIGHT Ericsson 2024
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+openapi: 3.0.2
+info:
+  x-api-id: 12f6a604-1712-43a6-a175-467bbcc0327e
+  x-audience: external-public
+  description: |
+    Application LCM created with Microservice Chassis<br>
+    The endpoints in this API are deprecated. For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+  version: 0.0.1
+  title: Application LCM
+  license:
+    name: COPYRIGHT Ericsson 2021
+    url: 'https://www.ericsson.com/en/legal'
+  termsOfService: 'https://www.ericsson.com/en/legal'
+  contact:
+    name: Team RogerRoger
+    email: PDLROGERRO@pdl.internal.ericsson.com
+tags:
+  - name: App Instances
+    description: Application LCM Phase 1 Endpoints for instances of an App.
+  - name: Artifact Instances
+    description: Application LCM Phase 1 Endpoints for instances of an Artifact.
+
+paths:
+  /app-instances:
+    post:
+      tags:
+        - App Instances
+      summary: Creates an instance of an App using 'appId'
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: createAppInstance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppInstancePostRequestDto'
+            examples:
+              AppInstance:
+                $ref: '#/components/examples/AppInstancePostRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInstanceDto'
+              examples:
+                AppInstance:
+                  $ref: '#/components/examples/AppInstancePost'
+        '202':
+          $ref: '#/components/responses/Accepted'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+    get:
+      tags:
+        - App Instances
+      summary: Retrieve all instances of apps in App LCM
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getAllAppInstances
+      parameters:
+        - in: query
+          description: appInstanceId
+          required: false
+          name: appId
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInstancesDto'
+              examples:
+                AppInstances:
+                  $ref: '#/components/examples/AppInstances'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+    put:
+      tags:
+        - App Instances
+      summary: Update specific artifact of an app.
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: updateAppInstanceById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppInstancePutRequestDto'
+            examples:
+              AppInstance:
+                $ref: '#/components/examples/AppInstancePutRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInstanceDto'
+              examples:
+                AppInstance:
+                  $ref: '#/components/examples/AppInstancePost'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+  /app-instances/{appInstanceId}:
+    get:
+      tags:
+        - App Instances
+      summary: Retrieve specific instance of an app by 'appInstanceId'
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getAppInstanceById
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInstanceDto'
+              examples:
+                AppInstance:
+                  $ref: '#/components/examples/AppInstance'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+    put:
+      tags:
+        - App Instances
+      summary: Terminate specific instance of an app by 'appInstanceId'
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: terminateAppInstanceById
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The Id of the app instance.
+      responses:
+        '204':
+          description: No Content
+          content: {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+  /app-instances/{appInstanceId}/artifact-instances:
+    get:
+      tags:
+        - Artifact Instances
+      summary: An app contains one or more artifacts that comprise the app.
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getArtifactInstancesByAppInstanceId
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtifactInstancesDto'
+              examples:
+                ArtifactInstances:
+                  $ref: '#/components/examples/ArtifactInstances'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+  /app-instances/{appInstanceId}/artifact-instances/{artifactInstanceId}:
+    get:
+      tags:
+        - Artifact Instances
+      summary: Retrieve specific artifact of an app by 'appInstanceId' and 'artifactInstanceId'
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: getArtifactInstanceByAppInstanceIdAndArtifactInstanceId
+      parameters:
+        - in: path
+          name: appInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: artifactInstanceId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtifactInstanceDto'
+              examples:
+                ArtifactInstance:
+                  $ref: "#/components/examples/ArtifactInstance"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+  /apps/{appId}:
+    delete:
+      tags:
+        - App Instances
+      summary: Delete all instances for app onboarded
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: deleteApplication
+      parameters:
+        - in: path
+          name: appId
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          description: The Id of the app
+      responses:
+        '202':
+          description: Accepted
+            The app was accepted to delete.
+        '200':
+          description: >
+            Failed To Delete 1 Or More App Instances
+          $ref: "#/components/responses/PartialDeletion"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        "409":
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+
+  /apps/{appId}/app-instances:
+    delete:
+      tags:
+        - App Instances
+      summary: Delete multiple app instances
+      deprecated: true
+      description: |
+        User must be authorized to use this endpoint. User must have App Manager Admin or Operator role.<br>
+        For more information on the latest App Administration APIs, please refer to the App Lifecycle Management API V3.
+      operationId: deleteMultipleAppInstances
+      parameters:
+        - in: path
+          name: appId
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          description: The Id of the app
+      requestBody:
+        required: true
+        description: List of app instances Ids to be deleted
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppInstanceListRequestDto'
+      responses:
+        '200':
+          description: >
+            Failed To Delete 1 Or More App Instances
+          $ref: "#/components/responses/PartialDeletion"
+        '204':
+          description: No Content
+            The app instance(s) were successfully deleted.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/AppLcmError'
+# components:
+components:
+  schemas:
+    ProblemDetails:
+      required:
+        - detail
+        - status
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        appLcmErrorCode:
+          type: integer
+        appLcmErrorMessage:
+          type: string
+        url:
+          type: string
+
+    AppInstanceListRequestDto:
+      type: object
+      required:
+        - appInstanceId
+      properties:
+        appInstanceId:
+          type: array
+          minItems: 1
+          items:
+            type: integer
+            format: int64
+
+    AppInstancePostRequestDto:
+      type: object
+      properties:
+        appId:
+          type: integer
+          format: int64
+        additionalParameters:
+          type: object
+          additionalProperties:
+            type: object
+      required:
+        - appId
+
+    AppInstanceDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        appOnBoardingAppId:
+          type: integer
+          format: int64
+          example: 123
+        healthStatus: # INSTANTIATED, TERMINATED, FAILED, PENDING, DELETED
+          type: string
+        targetStatus:
+          type: string
+        createdTimestamp:
+          type: string
+        additionalParameters:
+          type: string
+        links:
+          type: array
+          items:
+            title: Link
+            type: object
+            properties:
+              rel:
+                type: string
+              href:
+                type: string
+      required:
+        - appId
+
+    ArtifactInstanceDto:
+      type: object
+      properties:
+        artifactInstanceId:
+          type: integer
+          format: int64
+        artifactId:
+          type: integer
+          format: int64
+        healthStatus:
+          type: string
+        createdTimestamp:
+          type: string
+        statusMessage:
+          type: string
+        links:
+          type: array
+          items:
+            title: Link
+            type: object
+            properties:
+              rel:
+                type: string
+              href:
+                type: string
+
+    AppInstancesDto:
+      type: object
+      properties:
+        appInstances:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppInstanceDto'
+
+    ArtifactInstancesDto:
+      type: object
+      properties:
+        artifactInstances:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactInstanceDto'
+
+    AppInstancePutRequestDto:
+      type: object
+      properties:
+        appInstanceId:
+          type: integer
+          format: int64
+          example: 1
+        appOnBoardingAppId:
+          type: integer
+          format: int64
+          example: 2
+        additionalParameters:
+          type: object
+          additionalProperties:
+            type: object
+      required:
+        - appInstanceId
+        - appOnBoardingAppId
+
+    MultiDeleteErrorMessage:
+      description: Data Structure relating to an error that has occurred during a multiple subnet pools delete operation
+      type: object
+      required:
+        - appLcmErrorMessage
+        - appLcmErrorCode
+        - totalSuccessful
+      properties:
+        appLcmErrorMessage:
+          description: >
+            A short, human-readable summary of the problem
+            type.  It SHOULD NOT change from occurrence to occurrence of
+            the problem, except for purposes of localization (e.g., using
+            proactive content negotiation; see [RFC7231], Section 3.4).
+          type: string
+        appLcmErrorCode:
+          description: >
+            The Internal Error code for this occurrence of the problem.
+          type: integer
+        totalSuccessful:
+          description: >
+            The total number of app instances successfully deleted.
+          type: integer
+          format: int64
+        errorData:
+          description: >
+            A list containing multiple error detail messages. This contains further
+            information when app instances deletion has processed several resource operations in a
+            single request, and provides a list of all encountered errors during that
+            processing. Used when handling 'Delete multiple App Instances'.
+          type: array
+          items:
+            $ref: "#/components/schemas/MultiDeleteFailureDetails"
+
+    MultiDeleteFailureDetails:
+      description: Data Structure containing the error details for a MultiDeleteErrorMessage
+      type: object
+      required:
+        - appInstanceId
+        - failureMessage
+        - appLcmErrorCode
+      properties:
+        appInstanceId:
+          description: identity of the app instance that failed.
+          type: integer
+          format: int64
+        failureMessage:
+          description: The detailed reason for the error.
+          type: string
+        appLcmErrorCode:
+          description: The Internal Error code for this occurrence of the problem.
+          type: integer
+
+  examples:
+    AppInstancePostRequest:
+      summary: A sample post request to App Instance endpoint.
+      value:
+        appId: 1
+        additionalParameters: {
+          "namespace": "rapp-namespace"
+        }
+
+    AppInstancePutRequest:
+      summary: A sample put request to App Instance endpoint.
+      value:
+        appOnBoardingAppId: 2
+        additionalParameters: {
+          "namespace": "rapp-namespace"
+        }
+
+    AppInstance:
+      summary: A sample instance of an app.
+      value:
+        id: 1
+        appOnBoardingAppId: 456
+        healthStatus: INSTANTIATED
+        targetStatus: INSTANTIATED
+        createdTimestamp: "2021-08-19 19:10:25-07"
+        additionalParameters: {"namespace": "rapp-namespace"}
+        links:
+          - rel: app
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+          - rel: artifacts
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifacts
+          - rel: artifact-instances
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+          - rel: self
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1
+
+    AppInstancePost:
+      summary: A sample instance of an app returned from instantiate request.
+      value:
+        id: 1
+        appOnBoardingAppId: 1
+        healthStatus: PENDING
+        targetStatus: INSTANTIATED
+        createdTimestamp: "2021-08-19 19:10:25-07"
+        additionalParameters: { "namespace": "rapp-namespace" }
+        links:
+          - rel: app
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+          - rel: artifacts
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifacts
+          - rel: artifact-instances
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+          - rel: self
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1
+
+    AppInstances:
+      summary: All app instances in LCM
+      value:
+        - id: 1
+          appOnBoardingAppId: 234
+          healthStatus: FAILED
+          targetStatus: INSTANTIATED
+          createdTimestamp: "2021-08-19 19:10:25-07"
+          additionalParameters: {"namespace": "rapp-namespace"}
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/234
+            - rel: artifacts
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/234/artifacts
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1
+
+        - id: 2
+          appOnBoardingAppId: 235
+          healthStatus: PENDING
+          targetStatus: TERMINATED
+          createdTimestamp: "2021-08-19 19:10:25-07"
+          additionalParameters: {}
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/235
+            - rel: artifacts
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/235/artifacts
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/2/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/2
+
+    ArtifactInstance:
+      summary: A sample of an artifact instance
+      value:
+        artifactInstanceId: 1
+        artifactId: 123
+        healthStatus: PENDING
+        statusMessage: null
+        links:
+          - rel: app
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+          - rel: artifact
+            href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifact/123
+          - rel: app-instance
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instances/1
+          - rel: artifact-instances
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+          - rel: self
+            href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances/1
+
+    ArtifactInstances:
+      summary: A sample of an array of artifacts
+      value:
+        - artifactInstanceId: 1
+          artifactId: 123
+          healthStatus: PENDING
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+            - rel: artifact
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifact/123
+            - rel: app-instance
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instances/1
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances/1
+        - artifactInstanceId: 2
+          artifactId: 124
+          healthStatus: FAILED
+          links:
+            - rel: app
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456
+            - rel: artifact
+              href: http://<app-manager-url>/app/manager/onboarding/v1/apps/456/artifact/124
+            - rel: app-instance
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instances/1
+            - rel: artifact-instances
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances
+            - rel: self
+              href: http://<app-manager-url>/app/manager/lcm/v1/app-instance/1/artifact-instances/2
+
+  responses:
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    AppLcmError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Forbidden:
+      description: Forbidden
+      content:
+        text/plain:
+          schema:
+            type: string
+            example: Access Denied
+    Accepted:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    PartialDeletion:
+      description: The multiple delete request has partially succeeded. The response body describes the failures that occurred.
+      headers:
+        Content-Type:
+          description: The MIME type of the body of the response.
+          schema:
+            type: string
+            minimum: 1
+            maximum: 1
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MultiDeleteErrorMessage"

@@ -1,0 +1,28 @@
+{
+  "modules": [
+    {
+      "name": "eric-oss-app-ui",
+      "version": "1.0.0",
+      "path": "/src/apps/eric-oss-app-ui",
+      "main": "eric-oss-app-ui.js"
+    },
+    {
+      "name": "eric-oss-app-ui-package-details-v2",
+      "version": "1.0.0",
+      "path": "/src/apps/eric-oss-app-ui-package-details-v2",
+      "main": "eric-oss-app-ui-package-details-v2.js"
+    },
+    {
+      "name": "eric-oss-app-ui-package-details-v1",
+      "version": "1.0.0",
+      "path": "/src/apps/eric-oss-app-ui-package-details-v1",
+      "main": "eric-oss-app-ui-package-details-v1.js"
+    },
+    {
+      "name": "eric-oss-app-ui-app-artifacts",
+      "version": "1.0.0",
+      "path": "/src/apps/eric-oss-app-ui-app-artifacts",
+      "main": "eric-oss-app-ui-app-artifacts.js"
+    }
+  ]
+}

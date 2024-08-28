@@ -1,0 +1,93 @@
+{
+  "apps": [
+    {
+      "name": "eric-oss-app-ui",
+      "module": "eric-oss-app-ui",
+      "version": "1.0.0",
+      "displayName": "app-mgr",
+      "type": "euisdk",
+      "route": "eric-oss-app-ui",
+      "descriptionShort": "App Manager Admin View",
+      "groupNames": [
+        "app-mgr"
+      ],
+      "childNames": []
+    },
+    {
+      "name": "eric-oss-app-ui-package-details-v2",
+      "module": "eric-oss-app-ui-package-details-v2",
+      "version": "1.0.0",
+      "displayName": "eric-oss-app-ui-package-details-v2",
+      "type": "euisdk",
+      "route": "eric-oss-app-ui-package-details-v2",
+      "descriptionShort": "Application Details Page V2",
+      "hidden": true
+    },
+    {
+      "name": "eric-oss-app-ui-package-details-v1",
+      "module": "eric-oss-app-ui-package-details-v1",
+      "version": "1.0.0",
+      "displayName": "eric-oss-app-ui-package-details-v1",
+      "type": "euisdk",
+      "route": "eric-oss-app-ui-package-details-v1",
+      "descriptionShort": "Application Details Page V1",
+      "hidden": true
+    },
+    {
+      "name": "eric-oss-app-ui-app-artifacts",
+      "module": "eric-oss-app-ui-app-artifacts",
+      "version": "1.0.0",
+      "displayName": "App Artifacts",
+      "type": "euisdk",
+      "route": "eric-oss-app-ui-app-artifacts",
+      "hidden": true,
+      "descriptionShort": "List of App Artifacts for a given App"
+    }
+  ],
+  "components": [
+    {
+      "name": "search-bar",
+      "module": "search-bar",
+      "version": "1.0.0",
+      "displayName": "search-bar"
+    },
+    {
+      "name": "app-table",
+      "module": "app-table",
+      "version": "1.0.0",
+      "displayName": "app-table"
+    },
+    {
+      "name": "app-count",
+      "module": "app-count",
+      "version": "1.0.0",
+      "displayName": "app-count"
+    },
+    {
+      "name": "delete-app",
+      "module": "delete-app",
+      "version": "1.0.0",
+      "displayName": "delete app"
+    },
+    {
+      "name": "app-onboard",
+      "module": "app-onboard",
+      "version": "1.0.0",
+      "displayName": "onboard app"
+    },
+    {
+      "name": "job-table",
+      "module": "job-table",
+      "version": "1.0.0",
+      "displayName": "job-table"
+    }
+  ],
+  "groups": [
+    {
+      "displayName": "app-mgr",
+      "version": "1.0.0",
+      "name": "app-mgr",
+      "type": "category"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+/*******************************************************************************
+ * COPYRIGHT Ericsson 2022
+ *
+ *
+ *
+ * The copyright to the computer program(s) herein is the property of
+ *
+ * Ericsson Inc. The programs may be used and/or copied only with written
+ *
+ * permission from Ericsson Inc. or in accordance with the terms and
+ *
+ * conditions stipulated in the agreement/contract under which the
+ *
+ * program(s) have been supplied.
+ ******************************************************************************/
+:host {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.app-status__container {
+  margin-left: 2em;
+}
+
+.app-status__container label{
+  margin: .75rem 0;
+  font-size: 1rem;
+}
+
+.app-status__container > * {
+  display: flex;
+  flex-direction: column;
+  /* margin-bottom: 1em; */
+}
+
+.layout__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout__row:first-of-type {
+  border-bottom: 6px solid var(--gray-09);
+}
+
+.layout__row:last-of-type {
+  padding: 2em;
+}
+
+eui-tab {
+  font-size: 16px;
+}
+

@@ -1,0 +1,7 @@
+node_modules/
+!coverage/
+coverage/*
+build/
+.idea/
+*.tgz
+.DS_Store

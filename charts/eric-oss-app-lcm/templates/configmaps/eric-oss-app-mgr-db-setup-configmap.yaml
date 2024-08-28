@@ -1,0 +1,33 @@
+{{- if .Release.IsUpgrade -}}
+
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "eric-oss-app-lcm.name" . }}-db-setup-script
+  labels:
+    {{- include "eric-oss-app-lcm.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-11"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    {{- include "eric-oss-app-lcm.annotations" . | nindent 4 }}
+data:
+  app-lcm-db-setup.sh: |-
+{{ .Files.Get "scripts/app-lcm-db-setup.sh" | indent 4 }}
+{{- end -}}

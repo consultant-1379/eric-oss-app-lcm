@@ -1,0 +1,25 @@
+{
+    "id": 1,
+    "appOnBoardingAppId": 456,
+    "healthStatus": "PENDING",
+    "targetStatus": "INSTANTIATED",
+    "createdTimestamp": "2021-08-19 19:10:25-07",
+    "links": [
+      {
+        "rel": "self",
+        "href": "app/manger/lcm/app-lcm/v1/app-instance/1"
+      },
+      {
+        "rel": "artifact-instances",
+        "href": "app/manger/lcm/app-lcm/v1/app-instance/1/artifact-instances"
+      },
+      {
+        "rel": "app",
+        "href": "app/manager/onboarding/v1/apps/456"
+      },
+      {
+        "rel": "artifacts",
+        "href": "app/manager/onboarding/v1/apps/456/artifacts"
+      }
+    ]
+  }

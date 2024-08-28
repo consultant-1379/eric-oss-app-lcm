@@ -1,0 +1,33 @@
+#
+# COPYRIGHT Ericsson 2023
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+description: Delete app instance by app instance ID.
+name: deleteAppInstanceById_notFound
+priority: 9
+request:
+  method: DELETE
+  urlPath: /app-lcm/v1/apps/2/app-instances
+  headers:
+    Content-Type: application/json
+  body: |
+    {
+      "appInstanceId" : [2]
+    }
+response:
+  status: 404
+  bodyFromFile: responseForNotFoundAppInstance.json
+  headers:
+    Content-Type: "application/json"

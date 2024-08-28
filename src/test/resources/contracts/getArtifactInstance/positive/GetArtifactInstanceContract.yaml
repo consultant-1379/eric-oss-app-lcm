@@ -1,0 +1,29 @@
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+description: Given an app instance's id and artifact instance's ID endpoint returns artifact instance of that app instance.
+name: artifactInstanceOfGivenAppByArtifactInstanceId_success
+priority: 8
+request:
+  method: GET
+  urlPath: /app-lcm/v1/app-instances/1/artifact-instances/1
+  headers:
+    Content-Type: application/json
+response:
+  status: 200
+  bodyFromFile: response.json
+  headers:
+    Content-Type: "application/json"

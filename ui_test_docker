@@ -1,0 +1,30 @@
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+FROM cypress/included:11.2.0 as cypress
+
+WORKDIR /eui_client
+
+
+# copy frontend code
+COPY ./eric-oss-app-ui /eui_client
+
+# Install NPM dependencies
+RUN npm run install:all
+# RUN npm i -D testcafe @shelex/cypress-allure-plugin testcafe-reporter-allure
+RUN npm run build:dev
+
+ENTRYPOINT ["sh","/eui_client/init_cypress.sh"]

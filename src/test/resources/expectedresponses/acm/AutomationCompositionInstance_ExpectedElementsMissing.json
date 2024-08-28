@@ -1,0 +1,26 @@
+{
+    "instanceId": "fac50cde-11a2-4915-a49c-709762714a5d",
+    "compositionId": "562ed027-2689-481a-b3a5-e284b1fbc33f",
+    "deployState": "UNDEPLOYED",
+    "lockState": "LOCKED",
+    "elements": {
+        "658b4e6a-d9dd-4df1-a8d8-f76e1862f492": {
+            "id": "951b4e6a-d9dd-4df1-a8d8-709762714a5d",
+            "definition": {
+                "name": "com.ericsson.oss.app.mgr.ac.element.UnknownElement",
+                "version": "1.2.3"
+            },
+            "participantId": "101c62b3-8918-41b9-a747-d21eb79c6c91",
+            "deployState": "UNDEPLOYED",
+            "lockState": "NONE",
+            "description": "Unknown Element for test",
+            "message": "Undeployed",
+            "properties": {},
+            "outProperties": {}
+        }
+    },
+        "stateChangeResult": "NO_ERROR",
+        "name": "InstanceHttp",
+        "version": "1.0.1",
+        "description": "Demo automation composition instance Http"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "Internal Server Error",
+  "title": "Internal Server Error",
+  "status": 500,
+  "detail": "Failure to instantiate app",
+  "appLcmErrorCode": 1004,
+  "appLcmErrorMessage": "Helm Orchestrator failed to instantiate app.",
+  "url": "/app-lcm/v1/app-instances"
+}

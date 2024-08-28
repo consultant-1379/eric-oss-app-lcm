@@ -1,0 +1,18 @@
+[
+  {
+    "id": 12,
+    "name": "eric-oss-anr5gassist",
+    "type": "HELM",
+    "version": "1.0.51",
+    "status": "COMPLETED",
+    "location": "/eric-oss-anr5gassist-1.0.51/charts/eric-oss-anr5gassist/1.0.51"
+  },
+  {
+    "id": 13,
+    "name": "docker.tar",
+    "type": "IMAGE",
+    "version": "--",
+    "status": "COMPLETED",
+    "location": "/v2/armdocker.rnd.ericsson.se/proj-eric-oss-drop/eric-oss-helm-test/manifests/1.0.0-1"
+  }
+]

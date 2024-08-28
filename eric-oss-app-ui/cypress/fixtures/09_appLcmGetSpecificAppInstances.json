@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "appOnBoardingAppId": 12,
+        "healthStatus": "FAILED",
+        "targetStatus": "INSTANTIATED",
+        "createdTimestamp": "2021-08-19 19:10:25-07",
+        "links": [
+            {
+                "rel": "app",
+                "href": "app/manager/onboarding/v1/apps/234"
+            },
+            {
+                "rel": "artifacts",
+                "href": "app/manager/onboarding/v1/apps/234/artifacts"
+            },
+            {
+                "rel": "artifact-instances",
+                "href": " app-manager/lcm/app-lcm/v1/app-instance/1/artifact-instances"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "appOnBoardingAppId": 12,
+        "healthStatus": "PENDING",
+        "targetStatus": "TERMINATED",
+        "createdTimestamp": "2021-08-19 19:10:25-07",
+        "links": [
+            {
+                "rel": "app",
+                "href": "app/manager/onboarding/v1/apps/235"
+            },
+            {
+                "rel": "artifacts",
+                "href": "app/manager/onboarding/v1/apps/235/artifacts"
+            },
+            {
+                "rel": "artifact-instances",
+                "href": " app-manager/lcm/app-lcm/v1/app-instance/2/artifact-instances"
+            }
+        ]
+    }
+]
